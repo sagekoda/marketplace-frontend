@@ -13,7 +13,7 @@ export function loadVendors(result){
 }
 
 export function fetchVendors(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/vendors`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadDeleteVendors(results){
 
 export function deleteVendors(vendorID) {
   console.log(vendorID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/${vendorID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/vendors/${vendorID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

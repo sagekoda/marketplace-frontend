@@ -13,7 +13,7 @@ export function loadBlog(result){
 }
 
 export function fetchBlog(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/blogs`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/blogs`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadDeleteBlog(results){
 
 export function deleteBlog(blogID) {
   console.log(blogID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/blogs/${blogID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/blogs/${blogID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

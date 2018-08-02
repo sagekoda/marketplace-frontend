@@ -1,18 +1,18 @@
 import 'whatwg-fetch';
-export const POST_PRODUCT_DETAILS = 'POST_PRODUCT_DETAILS';
-export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
-export const UPDATE_PRODUCT_DETAILS = "UPDATE_PRODUCT_DETAILS";
-export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const POST_BLOG_DETAILS = 'POST_BLOG_DETAILS';
+export const FETCH_BLOGS = "FETCH_BLOGS";
+export const UPDATE_BLOG_DETAILS = "UPDATE_BLOG_DETAILS";
+export const DELETE_BLOG = "DELETE_BLOG";
 
-export function loadProducts(result){
+export function loadBlogs(result){
   return {
-    type: FETCH_PRODUCTS,
+    type: FETCH_BLOGS,
     payload: result
   }
 }
 
-export function fetchProducts(){
-  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products`,
+export function fetchBlogs(){
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs`,
  {
     method: 'GET',
     headers: {
@@ -21,73 +21,72 @@ export function fetchProducts(){
   })
  .then(response => response.json())
  .then(json => {
-   dispatch(loadProducts(json));
+   dispatch(loadBlogs(json));
  })
  .catch(error => console.log(error))
 
 }
 
 
-export function loadProductDetail(results) {
+export function loadBlogDetail(results) {
   return {
-    type: POST_PRODUCT_DETAILS,
+    type: POST_BLOG_DETAILS,
     payload: results,
   };
 }
 
 
-export function postProductDetails(productDetails) {
-  console.log(productDetails);
-  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products`, {
+export function postBlogDetails(blogDetails) {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
-    body: JSON.stringify(productDetails)
+    body: JSON.stringify(blogDetails)
   })
     .then(response => response.json())
     .then((json) => {
-      dispatch(loadProductDetail(json));
+      dispatch(loadBlogDetail(json));
     })
     .catch(error => console.log(error));
 }
 
-export function loadUpdatedProductDetails(results){
+export function loadUpdatedBlogDetails(results){
   return {
-    type: UPDATE_PRODUCT_DETAILS,
+    type: UPDATE_BLOG_DETAILS,
     payload: results,
   };
 }
 
-export function putProductDetails(productDetails, productID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
+export function putBlogDetails(blogDetails, blogID) {
+return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs/${blogID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
-    body: JSON.stringify(productDetails)
+    body: JSON.stringify(blogDetails)
   })
     .then(response => response.json())
     .then((json) => {
-      dispatch(loadUpdatedProductDetails(json));
+      dispatch(loadUpdatedBlogDetails(json));
     })
     .catch(error => console.log(error));
 }
 
-export function loadDeleteProduct(results){
+export function loadDeleteBlog(results){
   return {
-    type: DELETE_PRODUCT,
+    type: DELETE_BLOG,
     payload: results,
     
   };
 }
 
-export function deleteProduct(productID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
+export function deleteBlog(blogID) {
+return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs/${blogID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
@@ -97,7 +96,7 @@ return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/
   })
     .then(response => response.json())
     .then((json) => {
-      dispatch(loadDeleteProduct(json));
+      dispatch(loadDeleteBlog(json));
     })
     .catch(error => console.log(error));
 }

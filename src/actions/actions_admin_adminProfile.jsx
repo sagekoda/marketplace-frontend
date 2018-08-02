@@ -13,7 +13,7 @@ export function loadUpdatedAdminProfile(result){
 }
 
 export function updatedAdminProfile(adminProfile, adminID){
-    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/admins/${adminID}`, {
+    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/admins/${adminID}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -36,7 +36,7 @@ export function loadAdminUpdate(result){
 }
 
 export function fetchAdminProfile(adminID){
-    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/admins/${adminID}`, {
+    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/admins/${adminID}`, {
         method: 'GET'
     })
     .then(response => response.json())

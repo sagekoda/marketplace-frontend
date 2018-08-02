@@ -1,3 +1,7 @@
+/**
+ * @desc Appliaction Validation
+ * @author Odewale Ifeoluwa
+ */
 class Validator {
   static isEmail(email) {
     const filter = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -42,6 +46,20 @@ class Validator {
 
   static contained(value, array){
     return array.indexOf(value) < 0;
+  }
+
+  static propertyExist(mainObject, mainProps, subProps = null, subSubProps = null, subSubSubProps = null){
+
+    if(subProps === null){
+      return mainObject.hasOwnProperty(mainProps);
+    }else if(subSubProps === null){
+      return mainObject.hasOwnProperty(mainProps) && mainObject[mainProps].hasOwnProperty(subProps);
+    }else if(subSubSubProps === null){
+      return mainObject.hasOwnProperty(mainProps) && mainObject[mainProps].hasOwnProperty(subProps) && mainObject[mainProps][subProps].hasOwnProperty(subSubProps);
+    }else{
+      return mainObject.hasOwnProperty(mainProps) && mainObject[mainProps].hasOwnProperty(subProps) && mainObject[mainProps][subProps].hasOwnProperty(subSubProps) && mainObject[mainProps][subProps][subSubProps].hasOwnProperty(subSubSubProps);
+    }
+
   }
 }
 

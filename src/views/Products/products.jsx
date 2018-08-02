@@ -22,14 +22,13 @@ import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 
 
 import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
-import ImageModal from "./modal";
 
 
 const columnData = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Product Name' },
-  { id: 'short_description', numeric: false, disablePadding: true,  label: 'Short Description' },
-  { id: 'category_id', numeric: false, disablePadding: true,  label: 'Category' },
-  { id: 'brand_id', numeric: false, disablePadding: true,  label: 'Brand' },
+  { id: 'description', numeric: false, disablePadding: true,  label: 'Short Description' },
+  { id: 'category', numeric: false, disablePadding: true,  label: 'Category' },
+  { id: 'brand', numeric: false, disablePadding: true,  label: 'Brand' },
   { id: 'images',  numeric: false, disablePadding: true,  label: 'Product Images' },
 ];
 
@@ -39,53 +38,41 @@ const properties = [{name: "name", component: true, padding: true, numeric: fals
 {name: "brand", component: false, padding: false, numeric: false, img: false, brandMap: true}]
 
 const imagePanelView = [ 
-  // {
-  //   label:"image_sm",
-  //   imgType: "Product Small Image",
-  //   fullWidth: true,
-  //   width: 500,
-  //   height:500
-  // }, {label:"image_md", 
-  // imgType: "Product Medium Image",
-  //   fullWidth: true,
-  //   width: 700,
-  //   height:700
-  // },
-   {label:"image_lg",
+   {label:"image_lg|images",
   imgType: "Product Large Image",
     fullWidth: true, 
       width: 1000,
       height:1000
     },
     {
-      label:"image_front", 
+      label:"image_front|images", 
     imgType: "Product Front Image",
     fullWidth: true,
     width: 1000,
     height:1000
     }, 
-    {label:"image_back",
+    {label:"image_back|images",
   imgType: "Product Back Image",
     fullWidth: true, 
       width: 1000,
       height:1000
-    }, {label:"image_top",
+    }, {label:"image_top|images",
     imgType: "Product Top Image",
     fullWidth: true, 
     width: 1000,
     height:1000
-  }, {label:"image_bottom",
+  }, {label:"image_bottom|images",
   imgType: "Product Bottom Image",
     fullWidth: true, 
   width: 1000,
   height:1000
-}, {label:"image_right",
+}, {label:"image_right|images",
   imgType: "Product Right Image",
     fullWidth: true, 
 width: 1000,
 height:1000
 }, {
-label:"image_left",
+label:"image_left|images",
 imgType: "Product Left Image",
 fullWidth: true, 
 width: 1000,
@@ -101,6 +88,7 @@ class  Products extends React.Component{
           data: [],
           categories: [],
           brands: [],
+          variantSnackBar: "success",
           snackBarOpenSuccess: false,
           snackBarMessageSuccess: "Yet to decide the action",
           deletedCategory: 0,
@@ -114,50 +102,64 @@ class  Products extends React.Component{
   }
 
   componentWillReceiveProps(newProps){
-    if(newProps.product.hasOwnProperty('getAll')){
+    if(newProps.product.hasOwnProperty('getAll') && typeof newProps.product.getAll === "object"){
       this.setState({
         data: newProps.product.getAll
       })
     }
 
-    if(newProps.product.hasOwnProperty('productCategories')){
+    if(newProps.product.hasOwnProperty('productCategories') && typeof newProps.product.productCategories === "object"){
       this.setState({
         categories: newProps.product.productCategories,
 
       })
     }
 
-    if(newProps.product.hasOwnProperty('productBrands')){
+    if(newProps.product.hasOwnProperty('productBrands') && typeof newProps.product.productBrands === "object"){
       this.setState({
         brands: newProps.product.productBrands
       })
     }
 
     if(newProps.product.hasOwnProperty('addProduct')){
-      //Stringify and parsing all products
+      if(typeof newProps.product.addProduct === "string"){
+        return false;
+      }
+        //Stringify and parsing all products
       let newProducts = JSON.parse(JSON.stringify(this.state.data));
       //Added the new product as the first element
       newProducts.unshift(newProps.product.addProduct);
       this.setState({
         data: newProducts,
         snackBarOpenSuccess: true,
+        variantSnackBar: "success",
         snackBarMessageSuccess: "You have successfully added a new Product",
       })
+      
     }
 
     if(newProps.product.hasOwnProperty('updateProduct')){
+      if(typeof newProps.product.updateProduct === "string"){
+        this.setState({
+          variantSnackBar: "error",
+          snackBarOpenSuccess: true,
+          snackBarMessageSuccess: newProps.product.updateProduct,
+        })
+        return false;
+      }
       let newProducts = JSON.parse(JSON.stringify(this.state.data));
       let updateProducts;
-      updateProducts = newProducts.map( category => {
-                if(newProps.product.updateProduct._id === category._id){
+      updateProducts = newProducts.map( product => {
+                if(newProps.product.updateProduct.id === product.id){
                   return newProps.product.updateProduct;
                 }else{
-                  return category;
+                  return product;
                 }
             });
       this.setState({
         data: updateProducts,
         snackBarOpenSuccess: true,
+        variantSnackBar: "success",
         snackBarMessageSuccess: "You have successfully updated Product",
       })
     }
@@ -178,7 +180,7 @@ class  Products extends React.Component{
 
   imagePanelDisplay = (n) => {
       return (<TableCell>
-                <ImageModal
+                <AddNew
                 type="imageUpload"
                 imgObj = {imagePanelView}
                 eachData = {n}
@@ -201,7 +203,7 @@ class  Products extends React.Component{
       this.props.deleteProduct(productID);
       counter++;
       if(counter === productIDs.length){
-        let newData = this.state.data.filter( datum =>  productIDs.indexOf(datum._id)  === -1) 
+        let newData = this.state.data.filter( datum =>  productIDs.indexOf(datum.id)  === -1) 
         this.setState({
           data: newData,
           snackBarOpenSuccess: true,
@@ -226,7 +228,8 @@ class  Products extends React.Component{
           categories,
           brands,
           snackBarMessageSuccess,
-          snackBarOpenSuccess
+          snackBarOpenSuccess,
+          variantSnackBar
         } = this.state;
 
 
@@ -299,7 +302,7 @@ class  Products extends React.Component{
           >
               <BezopSnackBar
               onClose={this.onCloseHandlerSuccess}
-              variant="success"
+              variant={variantSnackBar}
               message={snackBarMessageSuccess}
               />
             </Snackbar>

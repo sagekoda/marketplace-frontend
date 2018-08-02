@@ -1,7 +1,7 @@
-/*
-*@desc the container of Product Setting used by REDUX 
+/**
+ * @desc the container of Product Setting used by REDUX 
 *@author Odewale Ifeoluwa
-*/
+ */
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import ProductsComponent from '../../views/Products/products';

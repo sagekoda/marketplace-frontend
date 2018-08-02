@@ -1,5 +1,4 @@
 import React from "react";
-import ImagePlaceholder from "./Category/ImagePlaceholder";
 import { withStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 // core components
@@ -9,11 +8,13 @@ import Card from "../../components/Card/Card.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 
 import cardImagesStyles from "../../assets/jss/material-kit-react/cardImagesStyles";
+import ImagePlaceholder from "./ImagePlaceholder";
+import Validator from "../../helpers/validator";
 
 
 
 
-class ImagePanel extends React.Component{
+class ImageArray extends React.Component{
 
     constructor(props){
         super(props);
@@ -24,11 +25,13 @@ class ImagePanel extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.product.hasOwnProperty("updateImage")){
-            let newEachData = JSON.parse(JSON.stringify(newProps.product.updateImage));
-            this.setState({
-                eachData: newEachData
-            })
+        if(Validator.propertyExist(newProps, "product", "updateImage")){
+            if(typeof newProps.product.updateImage === "object"){
+                let newEachData = JSON.parse(JSON.stringify(newProps.product.updateImage));
+                this.setState({
+                    eachData: newEachData
+                })
+            }
         }
     }
     
@@ -42,13 +45,14 @@ class ImagePanel extends React.Component{
                 <CardBody>
                 <Grid container>
                 {imgObj.map((img, key) => {
+                    const imgTree = img.label.split("|");
                     return (
-                        <GridItem xs={12} md={4} key={`${img.label}${key}`}>
+                        <GridItem xs={12} md={4} key={`${imgTree[0]}${key}`}>
                             <ImagePlaceholder 
-                            srcImage={eachData[img.label]} 
+                            srcImage={imgTree.length > 2 ? eachData[imgTree[2]][imgTree[1]][imgTree[0]] : imgTree.length === 2 ? eachData[imgTree[1]][imgTree[0]] : eachData[imgTree[0]]} 
                             label={img.label}
                             eachData={eachData} 
-                            fileInput={`${img.label}${eachData.id}`}
+                            fileInput={`${imgTree[0]}${eachData.id}`}
                             fullwidth={img.fullWidth} 
                             width={img.width}
                             height={img.height}
@@ -69,4 +73,4 @@ class ImagePanel extends React.Component{
 }
 
 
-export default withStyles(cardImagesStyles)(ImagePanel);
+export default withStyles(cardImagesStyles)(ImageArray);

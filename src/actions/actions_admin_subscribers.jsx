@@ -13,7 +13,7 @@ export function loadSubscribers(result){
 }
 
 export function fetchSubscribers(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/subscribers`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/subscribers`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadDeleteSubscriber(results){
 
 export function deleteSubscriber(subscriberID) {
   console.log(subscriberID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/subscribers/${subscriberID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/subscribers/${subscriberID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

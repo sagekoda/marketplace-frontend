@@ -2,7 +2,9 @@
 //@author Sylvia Onwukwe
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-
+import validator from "../../../helpers/validator";
+import Snackbar from '@material-ui/core/Snackbar';
+import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
 import CardBody from "../../../components/Card/CardBody.jsx";
@@ -17,26 +19,57 @@ class TermsAndConditions extends React.Component {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      termsAndConditions: "",
+      termsAndConditionsError: '',
+      snackBarMessageSuccess: "",
+      snackBarOpenSuccess: false
     };
   }
-
+  
+  //input validation
+  checkTermsAndConditions= (type, value) => {
+    let newTermsAndConditionsError = JSON.parse(JSON.stringify(this.state.termsAndConditionsError));
+    switch(type){
+      case "termsandconditions":
+        newTermsAndConditionsError[type] = validator.minStrLen(value, 20);
+      break;
+      default:
+      break;
+    }
+    this.setState({
+      termsAndConditionsError: newTermsAndConditionsError
+    })
+  }
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
+  /*
   componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    this.cardAnimation = setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
-      700
-    );
+   this.props.fetchTermsAndConditions();
   }
-  componentWillMount (){
-    clearTimeout (this.cardAnimation)
+  */
+  updateTermsAndConditions = () => {
+    this.props.updateTermsAndConditions(this.state.termsAndConditions)
+  }
+  componentWillReceiveProps(newProps){
+    if(newProps.termsAndConditions.hasOwnProperty("updateTermsAndConditions")){
+      let newTermsAndConditions = Object.assign({}, this.state.termsAndConditions, newProps.termsAndConditions.updateTermsAndConditions)
+      this.setState({
+        termsAndConditions: newTermsAndConditions,
+        snackBarOpenSuccess: true,
+        snackBarMessageSuccess: "You Have Successfully Updated This Terms And Conditions"
+      });
+    }
+  }
+
+  onCloseHandlerSuccess = () => {
+    this.setState({
+      snackBarOpenSuccess: false
+    })
   }
   render(){
+    const { termsAndConditions, snackBarMessageSuccess, snackBarOpenSuccess} = this.state;
 
     return (
       <div>
@@ -52,12 +85,13 @@ class TermsAndConditions extends React.Component {
                   <CustomInput
                     id="terms-conditions"
                     formControlProps={{
-                      fullWidth: true,
-                      required: true
+                    fullWidth: true
                     }}
                     inputProps={{
-                        multiline: true,
-                        rows: 20
+                      value: termsAndConditions,
+                      multiline: true,
+                      rows: 20,
+                      onChange: this.handleChange
                     }}
                   />
                   <InputAdornment> Terms and Conditions</InputAdornment>
@@ -69,6 +103,17 @@ class TermsAndConditions extends React.Component {
             </CardFooter>
           </Card>
         </div>
+        <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpenSuccess}
+            onClose={this.onCloseHandlerSuccess}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandlerSuccess}
+              variant="success"
+              message={snackBarMessageSuccess}
+              />
+            </Snackbar>
         </div>
     );
   }

@@ -105,6 +105,7 @@ class AddPage extends React.Component {
     this.props.setParentSelectElements('selectedCategory', selectedCategory);
     if(selectedCategory !== null){
       this.setProductDetails("main", selectedCategory.value, "category");
+
       this.setState({
         categorySelect: "react-select-label-visible",
         subcategories: this.state.categories.filter(category => category.parent === selectedCategory.value)
@@ -175,11 +176,16 @@ class AddPage extends React.Component {
   }
 
   componentWillReceiveProps(newProps){
-    if(newProps.product.hasOwnProperty('productCategories')){
+    if(newProps.product.hasOwnProperty('productCategories') && typeof newProps.product.productCategories === "object"){
+      
       this.setState({
         categories: newProps.product.productCategories,
-        subcategories: this.state.productDetails.category.sub ?newProps.product.productCategories.filter(category => category.id === this.state.productDetails.category.sub): [],
       })
+      if(this.state.productDetails.category.sub){
+        this.setState({subcategories: this.state.productDetails.category.sub ?newProps.product.productCategories.filter(category => category.id === this.state.productDetails.category.sub): []
+        })
+      }
+      
       if(this.state.selectedCategory === null){
         this.setState({
           selectedCategory: newProps.product.productCategories.filter(category => category.id === this.state.productDetails.category.main).map(category => { return{value: category.id, label: category.name}})[0]
@@ -193,7 +199,7 @@ class AddPage extends React.Component {
       }
     }
 
-    if(newProps.product.hasOwnProperty('productBrands') ){
+    if(newProps.product.hasOwnProperty('productBrands') && typeof newProps.product.productBrands === "object"){
       this.setState({
         brands: newProps.product.productBrands
       });

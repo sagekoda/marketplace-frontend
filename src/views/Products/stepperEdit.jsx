@@ -13,7 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import AddPage from "./productDetails.jsx"
 import BusinessDetails from './businessdetails';
 
+
 import Button from "../../components/CustomButtons/Button.jsx";
+import Validator from '../../helpers/validator';
 
 const styles = theme => ({
   root: {
@@ -35,80 +37,80 @@ class ProductStepperEdit extends React.Component {
       activeStep: 0,
       skipped: new Set(),
       productDetails: {
-        name: this.props.eachData.name,
-        code: this.props.eachData.code,
-        upc: this.props.eachData.upc,
-        sku: this.props.eachData.sku,
+        name: Validator.propertyExist(this.props.eachData, "name") ? this.props.eachData.name : "",
+        code: Validator.propertyExist(this.props.eachData, "code") ? this.props.eachData.code : "",
+        upc: Validator.propertyExist(this.props.eachData, "upc") ? this.props.eachData.upc : "",
+        sku: Validator.propertyExist(this.props.eachData, "sku") ? this.props.eachData.sku : "",
         category: {
-          main: this.props.eachData.category.main,
-          sub: this.props.eachData.category.sub
+          main: Validator.propertyExist(this.props.eachData, "category", "main") ? this.props.eachData.category.main : "",
+          sub: Validator.propertyExist(this.props.eachData, "category", "sub") ? this.props.eachData.category.sub : ""
         },
-        brand: this.props.eachData.brand,
+        brand: Validator.propertyExist(this.props.eachData, "brand")  ? this.props.eachData.brand : "",
         description: {
-          color: this.props.eachData.description.color,
-          unit: this.props.eachData.description.unit,
-          long: this.props.eachData.description.long,
-          short: this.props.eachData.description.short,
-          tags: this.props.eachData.description.tags,
+          color: Validator.propertyExist(this.props.eachData, "description", "color") ? this.props.eachData.description.color : [],
+          unit: Validator.propertyExist(this.props.eachData, "description", "unit")  ? this.props.eachData.description.unit: "",
+          long: Validator.propertyExist(this.props.eachData, "description", "long") ? this.props.eachData.description.long : "",
+          short: Validator.propertyExist(this.props.eachData, "description", "short") ? this.props.eachData.description.short : "",
+          tag: Validator.propertyExist(this.props.eachData, "description", "tag") ? this.props.eachData.description.tag : [],
         },
         variety:{
-          options: this.props.eachData.variety.options,
-          parent: this.props.eachData.variety.parent
+          options: Validator.propertyExist(this.props.eachData, "variety", "options") ? this.props.eachData.variety.options : false,
+          parent: Validator.propertyExist(this.props.eachData, "variety", "parent") ?this.props.eachData.variety.parent : "",
         },
         price: {
-          deal: this.props.eachData.price.deal,
-          valuation:this.props.eachData.price.valuation,
-          cost_price: this.props.eachData.price.cost_price,
-          unit_price: this.props.eachData.price.unit_price,
-          slash_price: this.props.eachData.price.slash_price,
-          discount: this.props.eachData.price.discount,
-          discount_type: this.props.eachData.price.discount_type,
-          tax: this.props.eachData.price.tax,
-          tax_type: this.props.eachData.price.tax_type,
+          deal: Validator.propertyExist(this.props.eachData, "price", "deal") ? this.props.eachData.price.deal: false,
+          valuation: Validator.propertyExist(this.props.eachData, "price", "valuation") ? this.props.eachData.price.valuation: "FIFO",
+
+          costPrice: Validator.propertyExist(this.props.eachData, "price", "costPrice") ?  this.props.eachData.price.costPrice : 0.00,
+          unitPrice: Validator.propertyExist(this.props.eachData, "price", "unitPrice") ?  this.props.eachData.price.unitPrice : 0.00,
+          slashPrice: Validator.propertyExist(this.props.eachData, "price", "slashPrice") ?  this.props.eachData.price.slashPrice : 0.00,
+          discount: Validator.propertyExist(this.props.eachData, "price", "discount") ?  this.props.eachData.price.discount : 0.00,
+          discountType: Validator.propertyExist(this.props.eachData, "price", "discountType") ?  this.props.eachData.price.discountType : "fixed",
+          tax: Validator.propertyExist(this.props.eachData, "price", "tax") ?  this.props.eachData.price.tax : 0.00,
+          taxType: Validator.propertyExist(this.props.eachData, "price", "taxType") ?  this.props.eachData.price.taxType: "fixed",
         },
-        shipping_details: {
-          cost: this.props.eachData.shipping_details.cost,
-          length: this.props.eachData.shipping_details.length,
-          height: this.props.eachData.shipping_details.height,
-          width: this.props.eachData.shipping_details.width,
-          weight: this.props.eachData.shipping_details.weight,
+        shippingDetails: {
+          cost: Validator.propertyExist(this.props.eachData, "shippingDetails", "cost") ? this.props.eachData.shippingDetails.cost : 0.00,
+          length: Validator.propertyExist(this.props.eachData, "shippingDetails", "length") ?  this.props.eachData.shippingDetails.length : 0,
+          height: Validator.propertyExist(this.props.eachData, "shippingDetails", "height") ? this.props.eachData.shippingDetails.height : 0,
+          width: Validator.propertyExist(this.props.eachData, "shippingDetails", "width") ? this.props.eachData.shippingDetails.width : 0,
+          weight: Validator.propertyExist(this.props.eachData, "shippingDetails", "weight") ?  this.props.eachData.shippingDetails.weight : 0,
         },
-        manufacture_details: {
-          make: this.props.eachData.manufacture_details.make,
-          model_number: this.props.eachData.manufacture_details.model_number,
-          release_date: this.props.eachData.manufacture_details.release_date.match(/^\d{4}[/-](0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])/)[0]
+        manufactureDetails: {
+          make: Validator.propertyExist(this.props.eachData, "manufactureDetails", "make") ?this.props.eachData.manufactureDetails.make : "",
+          modelNumber: Validator.propertyExist(this.props.eachData, "manufactureDetails", "modelNumber")  ?this.props.eachData.manufactureDetails.modelNumber : "",
+          releaseDate: Validator.propertyExist(this.props.eachData, "manufactureDetails", "releaseDate") ?this.props.eachData.manufactureDetails.releaseDate.match(/^\d{4}[/-](0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])/)[0]: ""
         },
         download: {
-          downloadable: this.props.eachData.download.downloadable,
-          download_name: this.props.eachData.download.download_name,
+          downloadable: Validator.propertyExist(this.props.eachData, "download", "downloadable") ?this.props.eachData.download.downloadable : false,
+          downloadName: Validator.propertyExist(this.props.eachData, "download", "downloadName") ? this.props.eachData.download.downloadName: "",
         },
         analytics:{
-          featured: this.props.eachData.analytics.featured,
+          featured: Validator.propertyExist(this.props.eachData, "analytics", "featured") ? 
+           this.props.eachData.analytics.featured : false,
         },
-        extra_fields: this.props.eachData.extra_fields
+        extraFields: Validator.propertyExist(this.props.eachData, "extraFields") ?this.props.eachData.extraFields: [],
         
       },
       selectElements: {
-        selectedOption: this.props.eachData.description.tag &&this.props.eachData.description.tag.length > 0 ? this.props.eachData.description.tag.map(tag => { return {value: tag, label: tag}}) : [],
-        selectedColors: this.props.eachData.description.color.length > 0 ? this.props.eachData.description.color.map(color => { return {value: color, label: color}}) : [],
-        selectedParents: this.props.eachData.variety.options.length > 0 ? this.props.eachData.variety.parent.map(color => { return {value: color, label: color}}) : [],
+        selectedOption: Validator.propertyExist(this.props.eachData, "description", "tag") ? this.props.eachData.description.tag.map(tag => { return {value: tag, label: tag}}) : [],
+        selectedColors: Validator.propertyExist(this.props.eachData, "description", "color") ? this.props.eachData.description.color.map(color => { return {value: color, label: color}}) : [],
         selectedBrand: null,
         selectedCategory: null,
         selectedSubCategory: null,
-        selectedDiscount: this.props.eachData.price.discount_type, label: this.props.eachData.price.discount_type.length > 0 ? {value: this.props.eachData.price.discount_type, label: this.props.eachData.price.discount_type.replace(/^\w/, c => c.toUpperCase())} :null,
-        selectedTax: {value: this.props.eachData.price.tax_type, label: this.props.eachData.price.tax_type.replace(/^\w/, c => c.toUpperCase())},
-        selectedValuation: {value: this.props.eachData.price.valuation, label: this.props.eachData.price.valuation},
+        selectedDiscount: Validator.propertyExist(this.props.eachData, "price", "discountType")  ? {value: this.props.eachData.price.discountType, label: this.props.eachData.price.discountType.replace(/^\w/, c => c.toUpperCase())} :null,
+        selectedTax: Validator.propertyExist(this.props.eachData, "price", "taxType")  ? {value: this.props.eachData.price.taxType, label: this.props.eachData.price.taxType.replace(/^\w/, c => c.toUpperCase())} : null,
+        selectedValuation: Validator.propertyExist(this.props.eachData, "price", "valuation")  ?  {value: this.props.eachData.price.valuation, label: this.props.eachData.price.valuation} : null,
       },
       selectStyle: {
-        taxSelect: `react-select-label-${this.props.eachData.price.tax_type.length > 0 ? "visible" : "hidden"}`,
-        discountSelect: `react-select-label-${this.props.eachData.price.discount_type.length > 0 ? "visible" : "hidden"}`,
-        brandSelect: `react-select-label-${this.props.eachData.brand && this.props.eachData.brand.length > 0 ? "visible" : "hidden"}`,
-        categorySelect: `react-select-label-${this.props.eachData.category.main &&this.props.eachData.category.main.length > 0 ? "visible" : "hidden"}`,
-        subCategorySelect: `react-select-label-${this.props.eachData.category.sub && this.props.eachData.category.sub.length > 0 ? "visible" : "hidden"}`,
-        tagsSelect: `react-select-label-${this.props.eachData.description.tag && this.props.eachData.description.tag.length > 0 ? "visible" : "hidden"}`,
-        colorsSelect: `react-select-label-${this.props.eachData.description.color && this.props.eachData.description.color.length > 0 ? "visible" : "hidden"}`,
-        parentSelect: `react-select-label-${this.props.eachData.variety.parent.length > 0 ? "visible" : "hidden"}`,
-        valuationSelect: `react-select-label-${this.props.eachData.price.valuation.length > 0 ? "visible" : "hidden"}`,
+        taxSelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "price", "taxType")  ? "visible" : "hidden"}`,
+        discountSelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "price", "discountType")  > 0 ? "visible" : "hidden"}`,
+        brandSelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "brand") ? "visible" : "hidden"}`,
+        categorySelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "category", "main") ? "visible" : "hidden"}`,
+        subCategorySelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "category", "sub") ? "visible" : "hidden"}`,
+        tagsSelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "description", "tag") ? "visible" : "hidden"}`,
+        colorsSelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "description", "color") ? "visible" : "hidden"}`,
+        valuationSelect: `react-select-label-${Validator.propertyExist(this.props.eachData, "price", "valuation")? "visible" : "hidden"}`,
       },
       productId: this.props.eachData.id,
     };
@@ -239,7 +241,7 @@ class ProductStepperEdit extends React.Component {
     const { classes } = this.props;
     const steps = this.getSteps();
     const { activeStep } = this.state;
-    console.log(this.state.productId);
+    
     return (
       <div className={classes.root}>
         <Stepper activeStep={activeStep}>

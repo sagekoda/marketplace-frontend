@@ -13,7 +13,7 @@ export function loadOrder(result){
 }
 
 export function fetchOrder(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/orders`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/orders`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadDeleteOrder(results){
 
 export function deleteOrder(orderID) {
   console.log(orderID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/orders/${orderID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/orders/${orderID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

@@ -11,21 +11,27 @@ DELETE_PRODUCT_BRAND
 
 const productBrand = (state = {}, action) => {
     let output;
+    let data;
     switch(action.type){
         case POST_PRODUCT_BRAND_DETAILS:
-            output = {addBrand: action.payload.data};
+            data = action.payload.success ? action.payload.data : "There was issue creating product brand";
+            output = {addBrand: data};
         break;
         case FETCH_PRODUCT_BRANDS:
-            output = {brands: action.payload.data};
+            data = action.payload.success ? action.payload.data : "There was issue fetching product brand";
+            output = {brands: data};
         break;
         case UPDATE_PRODUCT_BRAND_DETAILS:
-            output = {updateBrand: action.payload.data}
+            data = action.payload.success ? action.payload.data : "There was issue updating product brand";
+            output = {updateBrand:data}
         break;
         case DELETE_PRODUCT_BRAND:
-            output = {deleteBrand: action.payload.data}
+            data = action.payload.success ? action.payload.data : "There was issue deleting product brand";   
+            output = {deleteBrand:data}
         break;
         case PUT_IMAGE:
-            output = {updateImage: action.payload.data}
+            data = action.payload.success ? action.payload.data : "There was issue uploading product brand image"; 
+            output = {updateImage:data}
         break;
         default:
             output = state;

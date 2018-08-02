@@ -17,9 +17,9 @@ import Checkbox from '@material-ui/core/Checkbox';
  */
 import EnhancedTableHead from "./EnhanceTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import ImagePlaceholder from '../Images/ImagePlaceholder';
 
 
-import ImagePlaceholder from "../../views/Products/Category/ImagePlaceholder";
 
 
 const styles = theme => ({
@@ -133,11 +133,13 @@ class EnhancedTable extends React.Component {
   
     render() {
       const {  data, classes, tableTitle, properties, editButton, imagePanelDisplay,
-               onDeleteClickSpec, itemName,postImage, collection } = this.props;
-      const { order, orderBy, selected, rowsPerPage, page, columnData } = this.state;
-      const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-      console.log(data);
-      return (
+        onDeleteClickSpec, itemName,postImage, collection } = this.props;
+
+        const { order, orderBy, selected, rowsPerPage, page, columnData } = this.state;
+
+        let counter = typeof data === "object" ? data.length : 0;
+        const emptyRows = rowsPerPage - Math.min(rowsPerPage, counter - page * rowsPerPage);
+        return (
         <Paper className={classes.root}>
           <EnhancedTableToolbar numSelected={selected.length} itemName={itemName} tableTitle={tableTitle} onDeleteClick={() => onDeleteClickSpec(selected)}/>
           <div className={classes.tableWrapper}>
@@ -149,10 +151,10 @@ class EnhancedTable extends React.Component {
                 orderBy={orderBy}
                 onSelectAllClick={this.handleSelectAllClick}
                 onRequestSort={this.handleRequestSort}
-                rowCount={data.success ? data.data.length : 0}
+                rowCount={counter}
               />
               <TableBody>
-                {data?
+                {typeof data === "object" ?
                 data
                   .sort(getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -187,7 +189,18 @@ class EnhancedTable extends React.Component {
                                       collection={collection}
                                       eachData = {n}
                                       />
-                                      :
+                                      :property.imgArr ?
+                                      <ImagePlaceholder 
+                                        srcImage={n[property.name][0]} 
+                                        label={property.name} 
+                                        fileInput={`${property.name}${pkey}`} 
+                                        width={property.width}
+                                        height={property.height}
+                                        postImage={postImage}
+                                        collection={collection}
+                                        eachData = {n}
+                                        fullwidth={property.widthSize}
+                                        /> :
                                       property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) :
                                       property.brandMap ? this.props.brands.filter(brand => {
                                         return (brand.id === n[property.name])
@@ -197,7 +210,9 @@ class EnhancedTable extends React.Component {
                                       }).map(category => category.name).join(""):
                                       property.subname ?
                                       n[property.name][property.subname]:
-                                      n[property.name]
+                                      property.date ?
+                                      n[property.name].match(/^\d{4}[/-](0?[1-9]|1[012])[/-]\d{2}/)[0]
+                                      :n[property.name]
                                      
                                     }
                                     </TableCell>)
@@ -224,7 +239,7 @@ class EnhancedTable extends React.Component {
           </div>
           <TablePagination
             component="div"
-            count={data.success ? data.data.length: 0}
+            count={data === undefined? counter: 0}
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{

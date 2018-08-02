@@ -1,10 +1,11 @@
-/*
-*@desc the container of Coupon Setting used by REDUX 
+/**
+ * @desc the container of Coupon Setting used by REDUX 
 *@author Odewale Ifeoluwa
-*/
+ */
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import CouponsComponent from '../views/Coupons/coupon';
+import { fetchCoupons, postCouponDetails, putCouponDetails, deleteCoupon } from '../actions/actions_vendor_coupon';
 
 
 const CouponsStyle = {
@@ -36,12 +37,31 @@ const CouponsStyle = {
     }
   }
 };
+
 const mapStateToProps = state => ({
-  front: state.front
+  coupon: state.vendorCoupon
 });
+
+const mapDispatchToProps = (dispatch, newProps) => {
+  return {
+    fetchCoupons : () => {
+      dispatch(fetchCoupons())
+    },
+    postCouponDetails: (couponDetails) => {
+      dispatch(postCouponDetails(couponDetails));
+    },
+    putCouponDetails: (couponDetails, couponId) => {
+      dispatch(putCouponDetails(couponDetails, couponId));
+    },
+    deleteCoupon: (couponId) => {
+      dispatch(deleteCoupon(couponId));
+    }
+  }
+}
 
 const Coupons = connect(
   mapStateToProps,
+  mapDispatchToProps
 )(CouponsComponent);
 
 export default withStyles(CouponsStyle)(Coupons);

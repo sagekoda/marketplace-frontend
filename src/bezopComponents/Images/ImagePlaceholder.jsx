@@ -1,10 +1,10 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import validator from "../../../helpers/validator";
+import validator from "../../helpers/validator";
 import Snackbar from '@material-ui/core/Snackbar';
-import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 
-import Button from "../../../components/CustomButtons/Button.jsx";
+import Button from "../../components/CustomButtons/Button.jsx";
 
 const styles = theme => ({
     input:{
@@ -60,7 +60,7 @@ class ImagePlaceholder extends React.Component{
                 src: "",
                 label: this.props.label
             },
-            collectionId: this.props.eachData._id,
+            collectionId: this.props.eachData.id,
             closeButtonStatus: false,
             snackBarStatus: "error"
 
@@ -139,12 +139,6 @@ class ImagePlaceholder extends React.Component{
     }
 
     componentWillReceiveProps(newProps){
-        // if(this.props[this.props.fileInput] !== newProps[this.props.fileInput]){
-        //     this.setState({
-        //         [this.props.fileInput]: newProps[this.props.fileInput]
-        //     })
-        // }
-
         if(this.props.srcImage !== newProps.srcImage){
             this.setState({
                 srcImage: newProps.srcImage,
@@ -171,12 +165,12 @@ class ImagePlaceholder extends React.Component{
     render(){
         const {snackBarMessage, snackBarOpen, snackBarStatus} = this.state;
         const {fullwidth} = this.props;
-        const style = {width: fullwidth ? "100%" : "150px", marginBottom: "10px", marginTop: "10px"};
+        const style = {width: fullwidth === true ? "100%" : typeof fullwidth === "string" ? fullwidth : "150px", marginBottom: "10px", marginTop: "10px"};
         const {classes} = this.props;
         return (
             <div>
-                <div className={classes.imgWrapper}>
-                    <div>
+                <div className={classes.imgWrapper} style={style}>
+                    <div >
                         <img src={this.state[this.props.fileInput]} alt="" style={style}/>
                     </div>
                     {

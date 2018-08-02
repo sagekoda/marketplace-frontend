@@ -54,34 +54,34 @@ const productInformation = {
   price: {
     deal: false,
     valuation: "FIFO",
-    cost_price: "",
-    unit_price: "",
-    slash_price: "",
+    costPrice: "",
+    unitPrice: "",
+    slashPrice: "",
     discount: 0.0,
-    discount_type: "",
+    discountType: "",
     tax: 0.0,
-    tax_type: "",
+    taxType: "",
   },
-  shipping_details: {
+  shippingDetails: {
     cost: 0.0,
     length: "",
     height: "",
     width: "",
     weight: "",
   },
-  manufacture_details: {
+  manufactureDetails: {
     make: "",
-    model_number: "",
-    release_date: null
+    modelNumber: "",
+    releaseDate: null
   },
   download: {
     downloadable: false,
-    download_name: "",
+    downloadName: "",
   },
   analytics:{
     featured: false,
   },
-  extra_fields: []
+  extraFields: []
   
 };
 
@@ -115,7 +115,10 @@ class ProductStepper extends React.Component {
       skipped: new Set(),
       productDetails: productInformation,
       selectElements: selectElementsDropdown,
-      selectStyle: selectStyleDropdown
+      selectStyle: selectStyleDropdown,
+      snackBarVariant: "success",
+      snackBarOpenSuccess: false,
+      snackBarMessageSuccess: "Alright",
     };
   }
 
@@ -228,9 +231,27 @@ class ProductStepper extends React.Component {
     })
   }
 
+  onCloseHandlerSuccess = () => {
+    this.setState({
+      snackBarOpenSuccess: false
+    })
+  } 
+
   componentWillReceiveProps(newProps){
+
+    if(newProps.hasOwnProperty("modalStatus") && !newProps.modalStatus){
+      this.handleReset();
+    }
+
     if(newProps.product.hasOwnProperty('addProduct') && _.isEqual(this.props.product.addProduct, newProps.product.addProduct) === false){
-      
+      if(typeof newProps.product.addProduct === "string"){
+        this.setState({
+            snackBarVariant: "error",
+            snackBarMessageSuccess: newProps.product.addProduct,
+            snackBarOpenSuccess: true
+        })
+        return false;
+      }
       this.setState({
         productDetails: productInformation,
         selectElements: selectElementsDropdown,
@@ -252,7 +273,8 @@ class ProductStepper extends React.Component {
     const steps = this.getSteps();
     const { activeStep,
             snackBarMessageSuccess,
-            snackBarOpenSuccess } = this.state;
+            snackBarOpenSuccess,
+            snackBarVariant } = this.state;
 
     return (
       <div className={classes.root}>
@@ -340,7 +362,7 @@ class ProductStepper extends React.Component {
           >
               <BezopSnackBar
               onClose={this.onCloseHandlerSuccess}
-              variant="success"
+              variant={snackBarVariant}
               message={snackBarMessageSuccess}
               />
             </Snackbar>

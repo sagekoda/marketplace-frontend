@@ -5,6 +5,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
+import { Link } from "react-router-dom";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
@@ -45,21 +46,25 @@ class Admin extends React.Component {
             <Card>
               <CardHeader color="primary">
                 <CardIcon color="primary">
+                <Link to={"/admin/products"}> 
                   <Store />
+                </Link>
                 </CardIcon>
                 <p className={classes.cardCategory}>Total Products</p>
+                <Link to={"/admin/products"}> 
                 <h3 className={classes.cardTitle}>
                   4999
                 </h3>
+                </Link>
               </CardHeader>
               <CardFooter>
                 <div className={classes.stats}>
                   <Danger>
                     <ArrowForward />
                   </Danger>
-                  <a href="#Products" onClick={e => e.preventDefault()}>
+                 <Link to={"/admin/products"}>
                     View All Products
-                  </a>
+                  </Link>
                 </div>
               </CardFooter>
             </Card>

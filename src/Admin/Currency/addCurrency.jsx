@@ -11,7 +11,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 import CardFooter from "../../components/Card/CardFooter.jsx";
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
 import Select2 from "react-select";
 
 import _ from "lodash";
@@ -31,6 +30,8 @@ class AddCurrency extends React.Component{
         description: "",
         kind: "",
         code: "",
+        symbol: "",
+        exchange: "",
         icon: ""
       },
       storeCurrencyError: {
@@ -38,6 +39,8 @@ class AddCurrency extends React.Component{
         description: false,
         kind: false,
         code: false,
+        symbol: "",
+        exchange: "",
         icon: false
       },
       selectedCurrencyKind: null,
@@ -142,7 +145,6 @@ class AddCurrency extends React.Component{
   //Create new Currency
   createNewCurrency = () => {
     let newStoreCurrency = JSON.parse(JSON.stringify(this.state.storeCurrency));
-    console.log(newStoreCurrency, validator.minStrLen(newStoreCurrency.name, 3), validator.minStrLen(newStoreCurrency.description, 15), validator.contained(newStoreCurrency.kind, ['fiat', 'digital']))
     if(!validator.minStrLen(newStoreCurrency.name, 3) && !validator.minStrLen(newStoreCurrency.description, 15) && !validator.contained(newStoreCurrency.kind, ['fiat', 'digital'])){
       this.props.addStoreCurrency(this.state.storeCurrency);
     }else{
@@ -158,7 +160,6 @@ class AddCurrency extends React.Component{
     if(newProps.adminCurrency.hasOwnProperty("addCurrency") && (_.isEqual(this.props.adminCurrency.addCurrency, newProps.adminCurrency.addCurrency) === false)){
         this.setState({
           storeCurrency: {
-            token: "",
             name:"",
             description: "",
             kind: "",
@@ -211,20 +212,6 @@ class AddCurrency extends React.Component{
             </CardHeader>
             <CardBody>
               <Grid container>
-                <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                    labelText="Access Token"
-                    id="token"
-                    inputProps={{
-                      name:"token",
-                      onChange: this.handleChange
-                    }}
-                    formControlProps={{
-                      fullWidth: true,
-                      required: true
-                    }}
-                  />
-                  </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
           <CustomInput
                     labelText={storeCurrencyError.name === false? "Currency Name" : "The length of Currency must not be less than 3 characters"}
@@ -241,10 +228,8 @@ class AddCurrency extends React.Component{
                     }}
                   />
                 </GridItem>
-                </Grid>
-                <Grid container>
-                <GridItem xs={12} sm={12} md={12}>
-                  <FormControl >
+                <GridItem xs={12} sm={12} md={6}>
+      
                     <InputLabel htmlFor="selectedCurrencyKind" className={currencyKindSelect}>Type or Select Currency Kind</InputLabel>
                     <Select2 
                       id="selectedCurrencyKind"
@@ -258,10 +243,11 @@ class AddCurrency extends React.Component{
                       ]}
                       className={storeCurrencyError.kind === true ? "select-menu-error": ""}
                       />
-                  </FormControl>
+                
                 </GridItem>
+                
+                
                 </Grid>
-              
                 <Grid container>
                 <GridItem xs={12}>
                 <CustomInput
@@ -281,14 +267,42 @@ class AddCurrency extends React.Component{
                 <CustomInput
                     labelText="Currency Code"
                     id="code"
-                    error={storeCurrencyError.name}
+                    error={storeCurrencyError.code}
                     inputProps={{
                       name:"code",
-                      onChange: this.handleChange
+                      onChange: this.handleChange,
+                      value: storeCurrency.code
                     }}
                     formControlProps={{
-                      fullWidth: true,
-                      required: true
+                      fullWidth: true
+                    }}
+                  />
+                   <CustomInput
+                    labelText="Currency Symbol"
+                    id="symbol"
+                    
+                    inputProps={{
+                      name:"symbol",
+                      onChange: this.handleChange,
+                      value: storeCurrency.symbol
+                    }}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+
+                   <CustomInput
+                    labelText="Exchange"
+                    id="exchange"
+                   
+                    inputProps={{
+                      name:"exchange",
+                      onChange: this.handleChange,
+                      type: "number",
+                      value: storeCurrency.exchange
+                    }}
+                    formControlProps={{
+                      fullWidth: true
                     }}
                   />
                 </Grid>

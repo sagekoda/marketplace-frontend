@@ -1,18 +1,18 @@
 import 'whatwg-fetch';
-export const POST_PRODUCT_DETAILS = 'POST_PRODUCT_DETAILS';
-export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
-export const UPDATE_PRODUCT_DETAILS = "UPDATE_PRODUCT_DETAILS";
-export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const POST_COUPON_DETAILS = 'POST_COUPON_DETAILS';
+export const FETCH_COUPONS = "FETCH_COUPONS";
+export const UPDATE_COUPON_DETAILS = "UPDATE_COUPON_DETAILS";
+export const DELETE_COUPON = "DELETE_COUPON";
 
-export function loadProducts(result){
+export function loadCoupons(result){
   return {
-    type: FETCH_PRODUCTS,
+    type: FETCH_COUPONS,
     payload: result
   }
 }
 
-export function fetchProducts(){
-  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products`,
+export function fetchCoupons(){
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons`,
  {
     method: 'GET',
     headers: {
@@ -21,73 +21,72 @@ export function fetchProducts(){
   })
  .then(response => response.json())
  .then(json => {
-   dispatch(loadProducts(json));
+   dispatch(loadCoupons(json));
  })
  .catch(error => console.log(error))
 
 }
 
 
-export function loadProductDetail(results) {
+export function loadCouponDetail(results) {
   return {
-    type: POST_PRODUCT_DETAILS,
+    type: POST_COUPON_DETAILS,
     payload: results,
   };
 }
 
 
-export function postProductDetails(productDetails) {
-  console.log(productDetails);
-  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products`, {
+export function postCouponDetails(couponDetails) {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
-    body: JSON.stringify(productDetails)
+    body: JSON.stringify(couponDetails)
   })
     .then(response => response.json())
     .then((json) => {
-      dispatch(loadProductDetail(json));
+      dispatch(loadCouponDetail(json));
     })
     .catch(error => console.log(error));
 }
 
-export function loadUpdatedProductDetails(results){
+export function loadUpdatedCouponDetails(results){
   return {
-    type: UPDATE_PRODUCT_DETAILS,
+    type: UPDATE_COUPON_DETAILS,
     payload: results,
   };
 }
 
-export function putProductDetails(productDetails, productID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
+export function putCouponDetails(couponDetails, couponID) {
+return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons/${couponID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
-    body: JSON.stringify(productDetails)
+    body: JSON.stringify(couponDetails)
   })
     .then(response => response.json())
     .then((json) => {
-      dispatch(loadUpdatedProductDetails(json));
+      dispatch(loadUpdatedCouponDetails(json));
     })
     .catch(error => console.log(error));
 }
 
-export function loadDeleteProduct(results){
+export function loadDeleteCoupon(results){
   return {
-    type: DELETE_PRODUCT,
+    type: DELETE_COUPON,
     payload: results,
     
   };
 }
 
-export function deleteProduct(productID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
+export function deleteCoupon(couponID) {
+return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons/${couponID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
@@ -97,7 +96,7 @@ return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/
   })
     .then(response => response.json())
     .then((json) => {
-      dispatch(loadDeleteProduct(json));
+      dispatch(loadDeleteCoupon(json));
     })
     .catch(error => console.log(error));
 }

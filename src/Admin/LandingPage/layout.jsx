@@ -11,9 +11,10 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import Header from "../../components/Header/Header.jsx";
+import AdminHeader from "../../components/Header/AdminHeader.jsx";
+import Header from "../../components/Header/Admin.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-import Sidebar from "../../components/Sidebar/Sidebar.jsx";
+import AdminSidebar from "../../components/Sidebar/AdminSidebar.jsx";
 
 import adminRoutes from "../../routes/admin.jsx";
 
@@ -22,7 +23,7 @@ import dashboardStyle from "../../assets/jss/material-kit-react/layouts/dashboar
 import image from "../../assets/img/profile-bg.jpg";
 import logo from "../../assets/img/logo.png";
 import MobileSidebar from "../../components/Sidebar/MobileSidebar";
-import HeaderLinks from "../../components/Header/HeaderLinks";
+
 
 const switchRoutes = (
   <Switch>
@@ -75,7 +76,7 @@ class App extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const sideMenu = <Sidebar
+    const sideMenu = <AdminSidebar
       routes={adminRoutes}
       logoText="Bezop&nbsp;Store"
       logo={logo}
@@ -102,6 +103,7 @@ class App extends React.Component {
         <div className={classes.mainPanel} ref="mainPanel">
           <Header
             brand="Bezop Store"
+            leftLinks={<AdminHeader />}
             rightLinks={mobileSidebar}
             color="white"
             routes={adminRoutes}

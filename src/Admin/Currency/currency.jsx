@@ -37,7 +37,7 @@ class Currency extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-        storeCurrency: [],
+        currency: [],
         data: [],
         snackBarOpenSuccess: false,
         snackBarMessageSuccess: "",
@@ -53,15 +53,15 @@ class Currency extends React.Component {
     {<NewCurrency type="edit" eachData={n} adminCurrency={this.props.adminCurrency} specialMethod={this.props.putStoreCurrency}/>}
 </TableCell>)
   }
-  componentDidUpdate(prevProps){
-    if(this.props.adminCurrency.hasOwnProperty("currency") && (_.isEqual(this.props.adminCurrency.currency, prevProps.adminCurrency.currency) === false)){
+  componentWillReceiveProps(newProps){
+    if(newProps.adminCurrency.hasOwnProperty("currency")){
         this.setState({
-          data: this.props.adminCurrency.currency
+          data: newProps.adminCurrency.currency
         })
     }
-    if(this.props.adminCurrency.hasOwnProperty("addCurrency") && (_.isEqual(this.props.adminCurrency.addCurrency, prevProps.adminCurrency.addCurrency) === false)){
+    if(newProps.adminCurrency.hasOwnProperty("addCurrency")){
       let newCurrency = JSON.parse(JSON.stringify(this.state.data));
-      newCurrency.unshift(this.props.adminCurrency.addCurrency);
+      newCurrency.unshift(newProps.adminCurrency.addCurrency);
 
       this.setState({
         data: newCurrency,
@@ -70,12 +70,12 @@ class Currency extends React.Component {
       });
     }
 
-    if(this.props.adminCurrency.hasOwnProperty("updateCurrency") && (_.isEqual(this.props.adminCurrency.updateCurrency, prevProps.adminCurrency.updateCurrency) === false)){
+    if(newProps.adminCurrency.hasOwnProperty("updateCurrency")){
       let newCurrency = JSON.parse(JSON.stringify(this.state.data));
       let updateCurrency;
       updateCurrency = newCurrency.map( currency => {
-                if(this.props.adminCurrency.updateCurrency._id === currency._id){
-                  return this.props.adminCurrency.updateCurrency;
+                if(newProps.adminCurrency.updateCurrency._id === currency._id){
+                  return newProps.adminCurrency.updateCurrency;
                 }else{
                   return currency;
                 }
@@ -87,7 +87,20 @@ class Currency extends React.Component {
         snackBarMessageSuccess: "You have successfully updated this currency",
       });
     }
-  }
+
+  if(newProps.adminCurrency.hasOwnProperty("updateImage")){
+    let newData = this.state.data.map(datum => {
+      if(datum._id === newProps.adminCurrency.updateImage._id){
+        return newProps.adminCurrency.updateImage
+      }else{
+        return datum
+      }
+    })
+    this.setState({
+        data: newData
+    })
+}
+}
 
   onCloseHandlerSuccess = () => {
     this.setState({

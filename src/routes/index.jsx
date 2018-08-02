@@ -21,7 +21,7 @@ import Shop from "../layouts/Dashboard/Dashboard";
 import Support from "../layouts/Dashboard/Dashboard";
 import UserProfile from "../layouts/Dashboard/Dashboard";
 import AccountSetup from "../containers/AccountSetup"
-// import Blog from "../layouts/Dashboard/Dashboard.jsx";
+import Blog from "../layouts/Dashboard/Dashboard.jsx";
 
 //Admin Containers
 import Admin from "../Admin/LandingPage/layout";
@@ -273,6 +273,14 @@ var indexRoutes = [
         <Support {...props} />
         :
         <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
+      :
+      <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/blog",
+    name: "Blog",
+    Component: (props) => userIs(["vendor"])?
+      <Blog {...props} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },

@@ -1,13 +1,14 @@
-//@desc This is the Landing Page of the vendors after sign-in; It contains the header, the sidebar and the footer
-//@author Sylvia Onwukwe
-//@co author Ifeoluwa Odewale
-//@require This page imports routes from dashboard.jsx to display the dashboard component by default
-/* eslint-disable */
+/**
+ * @desc This is the Landing Page of the vendors after sign-in; It contains the header, the sidebar and the footer
+ * @requires "This page imports routes from dashboard.jsx to display the dashboard component by default"
+ * @author Odewale Ifeoluwa
+ */
+//
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
+//import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -63,9 +64,9 @@ class App extends React.Component {
     return this.props.location.pathname !== "/maps";
   }
   componentDidMount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      const ps = new PerfectScrollbar(this.refs.mainPanel);
-    }
+    // if (navigator.platform.indexOf("Win") > -1) {
+    //   const ps = new PerfectScrollbar(this.refs.mainPanel);
+    // }
   }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {

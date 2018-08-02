@@ -103,7 +103,7 @@ class LeftLinks extends React.Component {
                 </NavLink>
               </Tooltip>
               :
-              <Tooltip title="Needed 2 Product to Compare" placement="bottom" classes={{ tooltip: classes.tooltip }}>
+              <Tooltip title="Needs Two(2) Products to Compare" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <span className={classes.navLink} color="transparent">
                   <Compare />
                   {(this.state.Compare > 0)? <Badge color="primary" className={classes.navLink}>

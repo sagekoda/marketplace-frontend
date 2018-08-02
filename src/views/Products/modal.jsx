@@ -16,8 +16,8 @@ import Edit from "@material-ui/icons/Edit";
 import Button from "../../components/CustomButtons/Button.jsx";
 import ProductStepper from "./stepper.jsx";
 import ProductStepperEdit from "./stepperEdit.jsx"
-import ImagePanel from "./ImagePanel";
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
+import ImagePanel from '../../bezopComponents/Images/ImagePanel';
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
@@ -41,7 +41,7 @@ class AddNew extends React.Component{
       modal: false
     });
   }
-  
+
   render(){
     const { 
       classes,
@@ -51,7 +51,7 @@ class AddNew extends React.Component{
       postProductDetails,
       putProductDetails,
       type,
-   } = this.props;
+    } = this.props;
 
    let modalButton;
    let modalContent;
@@ -69,6 +69,7 @@ class AddNew extends React.Component{
             fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
             product={product}
             postProductDetails={postProductDetails}
+            modalStatus={this.state.modal}
             />
           )
       break;

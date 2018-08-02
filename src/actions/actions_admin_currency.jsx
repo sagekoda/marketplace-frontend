@@ -15,7 +15,7 @@ export function loadStoreCurrencies(result){
 }
 
 export function fetchStoreCurrencies(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/currencies`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/currencies`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -35,7 +35,7 @@ export function loadStoreCurrency(results) {
 
 
 export function postStoreCurrency(productStoreCurrency) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/currencies`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/currencies`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -58,7 +58,7 @@ export function loadUpdatedStoreCurrency(results){
 }
 
 export function putStoreCurrency(StoreCurrency, currencyID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/currencies/${currencyID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/currencies/${currencyID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -82,7 +82,7 @@ export function loadDeleteStoreCurrency(results){
 
 export function deleteStoreCurrency(currencyID) {
   console.log(currencyID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/currencies/${currencyID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/currencies/${currencyID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

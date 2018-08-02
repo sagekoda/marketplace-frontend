@@ -1,11 +1,15 @@
 /**
  * @description The Blog container used by Redux
- * @author Sylvia Onwukwe
+ * @author Odewale Ifeoluwa
+ * 
  */
 
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import BlogComponent from '../../views/Blog/blog.jsx';
+import { fetchBlogs, postBlogDetails, putBlogDetails, deleteBlog } from '../../actions/actions_vendor_blog';
+import { postImage } from '../../actions/actions_imageupload';
+
 
 const styles = {
   cardCategoryWhite: {
@@ -37,12 +41,34 @@ const styles = {
   }
 };
 
+
 const mapStateToProps = state => ({
-  front: state.front
+  blog: state.vendorBlog
 });
+
+const mapStateToDispatch= (dispatch, newProps) => {
+  return {
+    fetchBlogs: () => {
+      dispatch(fetchBlogs());
+    },
+    postBlogDetails: (blogDetails) => {
+      dispatch(postBlogDetails(blogDetails));
+    },
+    putBlogDetails: (blogDetails, blogId) => {
+      dispatch(putBlogDetails(blogDetails, blogId))
+    },
+    deleteBlog: (blogId) => {
+      dispatch(deleteBlog(blogId));
+    },
+    postImage: (imageDetails, mediaId)=>{
+      dispatch(postImage(imageDetails, mediaId))
+    }
+  }
+}
 
 const Blog = connect(
   mapStateToProps,
+  mapStateToDispatch
 )(BlogComponent);
 
 export default withStyles(styles)(Blog);

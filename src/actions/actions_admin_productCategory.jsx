@@ -14,7 +14,7 @@ export function loadProductCategories(result){
 }
 
 export function fetchProductCategories(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/categories`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadUpdatedProductCategoryDetails(results){
 
 
 export function putProductCategoryDetails(productCategoryDetails, categoryID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories/${categoryID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/categories/${categoryID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -56,7 +56,7 @@ export function loadDeleteProductCategory(results){
 
 export function deleteProductCategory(categoryID) {
   console.log(categoryID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories/${categoryID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/categories/${categoryID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

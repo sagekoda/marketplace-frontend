@@ -15,8 +15,8 @@ import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardAvatar from "../../components/Card/CardAvatar.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
-import validator from "../../helpers/validator";
 import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
+import Validator from "../../helpers/validator";
 
 class UserProfile extends React.Component{
 
@@ -25,23 +25,17 @@ class UserProfile extends React.Component{
     super(props);
     this.state = {
       userProfile: {
-        fullname:"",
-        description: "",
-        country: "",
-        state: "",
-        city: "",
-        zip: "",
+        fullname : "",
+        email: "",
         phone: "",
-        email: ""
-      },
-      userProfileError: {
-        fullname: false,
-        description: false,
-        country: false,
-        city: false,
-        zip: false,
-        phone: false,
-        email: false
+        address: {
+          country:   "",
+          state:  "",
+          city:  "",
+          zip:  "",
+          street: "",
+          building: "",
+        }
       },
       selectedCountry: null,
       countrySelect: "react-select-label-hidden",
@@ -50,44 +44,11 @@ class UserProfile extends React.Component{
       avatar: `${process.env.REACT_APP_DEV_API_URL}/assets/img/faces/marc.jpg`,
       snackBarMessageSuccess: "",
       snackBarOpenSuccess: false,
+      snackBarVariant: "success",
     }
   }
 
-  //Input Validation
-  checkUserProfileValidation = (type, value) => {
-    let newUserProfileError = JSON.parse(JSON.stringify(this.state.userProfileError));
-    
-    switch(type){
-      case "fullname":
-        newUserProfileError[type] = validator.minStrLen(value, 3);
-      break;
-      case "description":
-        newUserProfileError[type] = validator.minStrLen(value, 15);
-      break;
-      case "country":
-        newUserProfileError[type] = validator.contained(value.replace(/^\w/, c => c.toUpperCase()), countries().getNames());
-      break;
-      case "city":
-        newUserProfileError[type] = validator.minStrLen(value, 3);
-      break;
-      case "state":
-        newUserProfileError[type] = validator.minStrLen(value, 3);
-      break;
-      case "zip":
-        newUserProfileError[type] = validator.minStrLen(value, 2);
-      break;
-      case "phone":
-        newUserProfileError[type] = validator.minStrLen(value, 8);
-      break;
-      default:
-        
-      break;
-    }
 
-    this.setState({
-      userProfileError: newUserProfileError
-    })
-  }
 
   handleChange = (e) => {
     this.setUserProfile(e.target.name, e.target.value);
@@ -96,7 +57,7 @@ class UserProfile extends React.Component{
   handleCountryChange = (selectedCountry) => {
     this.setState({ selectedCountry });
     if(selectedCountry !== null){
-      this.setUserProfile("country", selectedCountry.value);
+      this.setUserProfile("country|address", selectedCountry.value);
       this.setState({
         countrySelect: "react-select-label-visible"
       })
@@ -104,60 +65,84 @@ class UserProfile extends React.Component{
       this.setState({
         countrySelect: "react-select-label-hidden",
       })
-      this.setUserProfile("country", "")
+      this.setUserProfile("country|address", "")
     }
   }
 
   setUserProfile = (type, value) => {
+    let names = type.split("|");
     let newUserProfile = JSON.parse(JSON.stringify(this.state.userProfile));
-    newUserProfile[type] = value;
+    switch(names.length){
+      case 1:
+        newUserProfile[names[0]] = value;
+      break;
+      case 2:
+        newUserProfile[names[1]][names[0]] = value;
+      break;
+      case 3:
+        newUserProfile[names[2]][names[1]][names[0]] = value;
+      break;
+      default:
+        return false
+    }
+    
     this.setState({
       userProfile: newUserProfile,
     });
-
-    this.checkUserProfileValidation(type, value);
   }
 
   componentDidMount(){
-    if(this.state.selectedCountry !== null){
-      this.setState({
-        countrySelect: "react-select-label-visible"
-      })
-    }else{
-      this.setState({
-        countrySelect: "react-select-label-hidden",
-      })
-    }
-
+    
     this.props.fetchUserProfile(this.state.vendorID);
-
-
   }
 
   updateUserProfile = () => {
-    
     this.props.updatedVendorProfile(this.state.userProfile, this.state.vendorID)
   }
 
   componentWillReceiveProps(newProps){
 
     if(newProps.vendorProfile.hasOwnProperty('updateProfile')){
+      if(typeof newProps.vendorProfile.updateProfile === "string"){
+        this.setState({
+          snackBarOpenSuccess: true,
+          snackBarMessageSuccess: newProps.vendorProfile.updateProfile,
+          snackBarVariant: "error",
+        });
+        return false;
+      }
 
       let newUserProfile = Object.assign({}, this.state.userProfile, newProps.vendorProfile.updateProfile)
       this.setState({
         userProfile: newUserProfile,
         snackBarOpenSuccess: true,
-        snackBarMessageSuccess: "You have successfully updated your profile"
+        snackBarMessageSuccess: "You have successfully updated your profile",
+        snackBarVariant: "success",
       });
       
     }
 
     if(newProps.vendorProfile.hasOwnProperty('getProfile')){
-        let newUserProfile = Object.assign({}, this.state.userProfile, newProps.vendorProfile.getProfile)
+
+      if(typeof newProps.vendorProfile.getProfile === "string"){
+        return false;
+      }
+
+      let newUserProfile = JSON.parse(JSON.stringify(this.state.userProfile));
+      newUserProfile.fullname = newProps.vendorProfile.getProfile.fullname;
+      newUserProfile.email = newProps.vendorProfile.getProfile.email;
+      newUserProfile.phone = newProps.vendorProfile.getProfile.phone; 
+      newUserProfile.address.country = newProps.vendorProfile.getProfile.address.country;     
+      newUserProfile.address.state = newProps.vendorProfile.getProfile.address.state;     
+      newUserProfile.address.city = newProps.vendorProfile.getProfile.address.city;     
+      newUserProfile.address.zip = newProps.vendorProfile.getProfile.address.zip;     
+      newUserProfile.address.street = newProps.vendorProfile.getProfile.address.street;     
+      newUserProfile.address.building = newProps.vendorProfile.getProfile.address.building;
         
         this.setState({
           userProfile: newUserProfile,
-          selectedCountry: {value: newUserProfile.country, label: newUserProfile.country.replace(/^\w/, c => c.toUpperCase())}
+          selectedCountry: Validator.propertyExist(newUserProfile.address.country, "country", "address") ? {value: newUserProfile.address.country, label: newUserProfile.address.country.replace(/^\w/, c => c.toUpperCase())} : null,
+          countrySelect :  `react-select-label-${Validator.propertyExist(newUserProfile.address.country, "country", "address") ? "visible" : "hidden"}`
         });
       }
     }
@@ -172,7 +157,7 @@ class UserProfile extends React.Component{
 
   render(){
     const { classes } = this.props;
-    const {userProfile, selectedCountry, countrySelect, avatar, snackBarMessageSuccess, snackBarOpenSuccess} = this.state;
+    const {userProfile, selectedCountry, countrySelect, avatar, snackBarMessageSuccess, snackBarOpenSuccess, snackBarVariant} = this.state;
     return (
       <div>
         <Grid container>
@@ -226,7 +211,6 @@ class UserProfile extends React.Component{
                             return {value: country.toLowerCase(), label: country}
                           })
                           }
-                        className={userProfile.country === true ? "select-menu-error": null}
                         />
                     </FormControl>
                   </GridItem>
@@ -238,8 +222,8 @@ class UserProfile extends React.Component{
                         fullWidth: true
                       }}
                       inputProps= {{ 
-                        value : userProfile.state,
-                        name: "state",
+                        value : userProfile.address.state,
+                        name: "state|address",
                         onChange:this.handleChange
                       }}
                     />
@@ -252,8 +236,8 @@ class UserProfile extends React.Component{
                         fullWidth: true
                       }}
                       inputProps= {{ 
-                        value : userProfile.city,
-                        name:"city",
+                        value : userProfile.address.city,
+                        name:"city|address",
                         onChange:this.handleChange
                       }}
                     />
@@ -262,13 +246,12 @@ class UserProfile extends React.Component{
                     <CustomInput
                       labelText="Zip"
                       id="zip"
-                      value={userProfile.zip}
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps= {{ 
-                        value : userProfile.zip,
-                        name: "zip",
+                        value : userProfile.address.zip,
+                        name: "zip|address",
                         onChange:this.handleChange
                       }}
                     />
@@ -283,28 +266,6 @@ class UserProfile extends React.Component{
                       inputProps= {{ 
                         value : userProfile.phone,
                         name: "phone",
-                        onChange:this.handleChange
-                      }}
-                    />
-                  </GridItem>
-                </Grid>
-                
-                
-                <Grid container>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                    <CustomInput
-                      labelText="About me"
-                      id="about-me"
-                      value={userProfile.description}
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        multiline: true,
-                        rows: 5,
-                        value : userProfile.description,
-                        name:"description",
                         onChange:this.handleChange
                       }}
                     />
@@ -383,7 +344,7 @@ class UserProfile extends React.Component{
           >
               <BezopSnackBar
               onClose={this.onCloseHandlerSuccess}
-              variant="success"
+              variant={snackBarVariant}
               message={snackBarMessageSuccess}
               />
             </Snackbar>

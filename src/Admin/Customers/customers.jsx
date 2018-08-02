@@ -5,7 +5,6 @@ import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import TableCell from '@material-ui/core/TableCell';
 import Search from "@material-ui/icons/Search"
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
@@ -18,7 +17,6 @@ import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
 
 const columnData = [
-  { id: 'nonce', numeric: false, disablePadding: true, label: 'Nonce' },
   { id: 'publicAddress', numeric: false, disablePadding: true, label: 'Public Address' },
   { id: 'username', numeric: false, disablePadding: true,  label: 'UserName' },
   { id: 'fullname', numeric: false, disablePadding: true,  label: 'Full Name' },
@@ -28,7 +26,7 @@ const columnData = [
   { id: 'country', numeric: false, disablePadding: true, label: 'Country'}
 ];
 
-const properties = [{name: "nonce", component: true, padding: false, numeric: true, img: false},
+const properties = [
 {name: "publicAddress", component: false, padding: false, numeric: false, img: false},
 {name: "username", component: false, padding: false, numeric: false, img: false},
 {name: "fullname", component: false, padding: false, numeric: false, img: false},
@@ -51,12 +49,6 @@ class AdminCustomers extends React.Component {
 
   componentDidMount(){
     this.props.fetchCustomers();
-  }
-
-  editButtonDisplay = (n) =>{
-    return (<TableCell>
-    
-</TableCell>)
   }
 
   onCloseHandlerSuccess = () => {
@@ -105,9 +97,9 @@ class AdminCustomers extends React.Component {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4>All Vendors</h4>
+            <h4>All Customers</h4>
             <p>
-              List of All Vendors
+              List of All Customers
             </p>
           </CardHeader>
           <CardBody>
@@ -117,7 +109,6 @@ class AdminCustomers extends React.Component {
               data={data}
               tableTitle="All Customers"
               properties={properties}
-              editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
               itemName={{single : "Customer", plural: "Customers"}}

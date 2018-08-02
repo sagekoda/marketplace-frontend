@@ -137,7 +137,7 @@ const adminRoutes = [
     icon: Settings,
     component: AdminStore
   },
-  { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
+  { redirect: true, path: "/", to: "/admin", navbarName: "Redirect" }
 ];
 
 export default adminRoutes;

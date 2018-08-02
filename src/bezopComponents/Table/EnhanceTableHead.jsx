@@ -52,7 +52,7 @@ class EnhancedTableHead extends React.Component {
             );
           }, this)}
                 <TableCell padding="checkbox">
-                    {"EDIT"}
+                    EDIT
                 </TableCell>
         </TableRow>
       </TableHead>

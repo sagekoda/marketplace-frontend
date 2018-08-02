@@ -15,7 +15,7 @@ export function loadAdminProfileDetails(result){
 }
 
 export function fetchAdminProfileDetails(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/admins`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/admins`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -35,7 +35,7 @@ export function loadAdminProfile(results) {
 
 
 export function postAdminProfile(AdminProfile) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/admins`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/admins`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -58,7 +58,7 @@ export function loadUpdatedAdminProfile(results){
 }
 
 export function putAdminProfile(AdminProfile, adminID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/admins/${adminID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/admins/${adminID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -82,7 +82,7 @@ export function loadDeleteAdminProfileDetails(results){
 
 export function deleteAdminProfileDetails(adminID) {
   console.log(adminID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/admins/${adminID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/admins/${adminID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

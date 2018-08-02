@@ -15,7 +15,7 @@ export function loadLanguagesList(result){
 }
 
 export function fetchLanguagesList(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/language-lists`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/language-lists`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -35,7 +35,7 @@ export function loadLanguageList(results) {
 
 
 export function postLanguageList(languageList) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/language-lists`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/language-lists`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -58,7 +58,7 @@ export function loadUpdatedLanguageList(results){
 }
 
 export function putLanguageList(languageList, languageListID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/language-lists/${languageListID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/language-lists/${languageListID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -82,7 +82,7 @@ export function loadDeleteLanguageList(results){
 
 export function deleteLanguageList(languageListID) {
   console.log(languageListID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/language-lists/${languageListID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/language-lists/${languageListID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
