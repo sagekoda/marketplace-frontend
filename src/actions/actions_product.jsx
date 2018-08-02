@@ -62,7 +62,7 @@ export function loadUpdatedProductDetails(results){
 }
 
 export function putProductDetails(productDetails, productID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products/${productID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -87,7 +87,7 @@ export function loadDeleteProduct(results){
 }
 
 export function deleteProduct(productID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products/${productID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

@@ -12,7 +12,7 @@ export function loadCoupons(result){
 }
 
 export function fetchCoupons(){
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons`,
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/coupons`,
  {
     method: 'GET',
     headers: {
@@ -37,7 +37,7 @@ export function loadCouponDetail(results) {
 
 
 export function postCouponDetails(couponDetails) {
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons`, {
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/coupons`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -61,7 +61,7 @@ export function loadUpdatedCouponDetails(results){
 }
 
 export function putCouponDetails(couponDetails, couponID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons/${couponID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/coupons/${couponID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -86,7 +86,7 @@ export function loadDeleteCoupon(results){
 }
 
 export function deleteCoupon(couponID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons/${couponID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/coupons/${couponID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

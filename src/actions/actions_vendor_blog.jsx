@@ -12,7 +12,7 @@ export function loadBlogs(result){
 }
 
 export function fetchBlogs(){
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs`,
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/blogs`,
  {
     method: 'GET',
     headers: {
@@ -37,7 +37,7 @@ export function loadBlogDetail(results) {
 
 
 export function postBlogDetails(blogDetails) {
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs`, {
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/blogs`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -61,7 +61,7 @@ export function loadUpdatedBlogDetails(results){
 }
 
 export function putBlogDetails(blogDetails, blogID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs/${blogID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/blogs/${blogID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -86,7 +86,7 @@ export function loadDeleteBlog(results){
 }
 
 export function deleteBlog(blogID) {
-return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/blogs/${blogID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/blogs/${blogID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',

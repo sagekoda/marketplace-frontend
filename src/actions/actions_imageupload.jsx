@@ -10,7 +10,7 @@ export function loadImageUpload(results) {
   
   
 export function postImage(imageDetail, collectionId) {
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/media/${collectionId}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/media/${collectionId}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
