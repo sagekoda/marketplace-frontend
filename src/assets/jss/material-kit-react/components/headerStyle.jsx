@@ -138,7 +138,7 @@ const headerStyle = {
     right: "0",
     left: "auto",
     visibility: "visible",
-    overflowY: "visible",
+    overflowY: "scroll",
     borderTop: "none",
     textAlign: "left",
     paddingRight: "0px",

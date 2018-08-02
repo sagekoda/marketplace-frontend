@@ -1,10 +1,18 @@
+/**
+ * @description This component will display categories or sub categories on the sidebar.
+ * @author Mohammed Odunayo
+ * @class CategoryCard
+ * @name CategoryCard
+ */
+
 import React from "react";
+import { Link } from 'react-router-dom'
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
+import { Button } from "@material-ui/core";
 // core components
 import Card from "../../components/Card/Card.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-import { Link } from 'react-router-dom'
 import imagesStyles from "../../assets/jss/material-kit-react/imagesStyles.jsx";
 
 const style = {
@@ -41,26 +49,37 @@ const style = {
     textShadow: "2px 2px 5px black"
   },
   cardCon: {
-      overflow: "hidden"
+      overflow: "hidden",
+      margin: "0px"
+  },
+  cardButton: {
+      padding: "0px",
+      margin: "0px",
+      marginBottom: "30px",
+      fontWeight: "normal",
+      width: "100%",
+      marginTop: "23px"
   }
 };
 
-class Sidebar extends React.Component {
+class CategoryCard extends React.Component {
   render() {
     const { classes, category } = this.props;
-
+    let key = this._reactInternalFiber.return.key;
     return(
-        <Link to="/category-link">
-        <Card className={classes.cardCon}>
-          <img className={classes.imgCardTop} src={category.image} alt={category.name} />
-          <CardBody className={classes.imgCardOverlay+" "+classes.cardBody}>
-            <h3 className={classes.cardTitle}>{category.name}</h3>
-            <p className={classes.cardText}>{category.info}</p>
-          </CardBody>
-        </Card>
+        <Link to={"/category/" + key}>
+          <Button simple="true" className={classes.cardButton}>
+            <Card className={classes.cardCon}>
+              <img className={classes.imgCardTop} src={category.image} alt={category.name} />
+              <CardBody className={classes.imgCardOverlay+" "+classes.cardBody}>
+                <h3 className={classes.cardTitle}>{category.name}</h3>
+                <p className={classes.cardText}>{category.info}</p>
+              </CardBody>
+            </Card>
+          </Button>
         </Link>
     );
   }
 };
 
-export default withStyles(style)(Sidebar);
+export default withStyles(style)(CategoryCard);

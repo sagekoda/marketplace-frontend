@@ -1,10 +1,17 @@
+/**
+ * @description The search component for the sidebar, it's the component responsible for searching of products in the store.
+ * @author Mohammed Odunayo
+ * @class MinSearch
+ * @name MinSearch
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import { Hidden, InputAdornment } from "@material-ui/core";
 import Search from '@material-ui/icons/Search';
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
-import { Hidden } from "@material-ui/core";
 
 const styles = theme => ({
   rootSidebar: {

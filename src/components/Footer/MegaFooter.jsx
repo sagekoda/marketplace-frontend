@@ -1,26 +1,22 @@
+/**
+ * @description The megaFooter component that render the big footer before the bottomFooter.
+ * @author Mohammed Odunayo
+ * @class MegaFooter
+ * @name MegaFooter
+ */
+
 import React from "react";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
+import {ArrowForward, Email, Home, Mail, Forward} from "@material-ui/icons";
+import {DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Dialog, List, ListItem} from '@material-ui/core';
 
-import Mail from "@material-ui/icons/Mail"
-import Arrow from "@material-ui/icons/Forward"
 import Button from '../../components/CustomButtons/Button.jsx';
-
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 
-import { List, ListItem } from "@material-ui/core";
-import {ArrowForward, Email, Home} from "@material-ui/icons"
-
 const style = {
-    megafoot: {
+    megaFoot: {
         padding: "90px 30px 30px 30px",
         marginTop: "-60px",
         borderBottom: "1px solid gray"
@@ -56,12 +52,12 @@ class MegaFooter extends React.Component {
         
         return (
 
-        <GridContainer style={style.megafoot} >
+        <GridContainer style={style.megaFoot} >
             <GridItem xs={12} sm={6} md={3}>
                 <h2>Newsletter</h2>
                 <h4 style={style.textCenter}>
                     <img src={require("../../assets/img/logo.png")} height="60" style={{marginTop: "-60px"}} alt="Logo" />&nbsp;
-                    <Arrow style={style.footIcon} />
+                    <Forward style={style.footIcon} />
                     <Mail style={style.footIcon} />
                     <br/>
                     Join our newsletter and get news in your inbox every week! We hate spam too, so no worries about this.
@@ -75,7 +71,7 @@ class MegaFooter extends React.Component {
                     aria-labelledby="subscription-dialog"
                     >
                     <DialogTitle id="subscription-dialog">
-                        <h3 color="primary"><Mail /> Subscribe To Newsletter</h3>
+                        <span color="primary"><Mail /> Subscribe To Newsletter</span>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -116,7 +112,7 @@ class MegaFooter extends React.Component {
                 <ListItem style={{padding: "10px 0px"}}>
                 <ArrowForward />&nbsp;
                 <a
-                    href="/category/women-fashion"
+                    href="/category/0"
                     style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
                 >
                     Women Fashion
@@ -125,7 +121,7 @@ class MegaFooter extends React.Component {
                 <ListItem style={{padding: "10px 0px"}}>
                 <ArrowForward />&nbsp;
                 <a
-                    href="/category/men-fashion"
+                    href="/category/1"
                     style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
                 >
                     Men Fashion
@@ -167,7 +163,7 @@ class MegaFooter extends React.Component {
                 <ListItem style={{padding: "10px 0px"}}>
                 <ArrowForward />&nbsp;
                 <a
-                    href="/featured-products"
+                    href="/products/featured"
                     style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
                 >
                     Featured Products

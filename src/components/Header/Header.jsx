@@ -78,7 +78,7 @@ class Header extends React.Component {
     const brandComponent = (
       <Link to={"/"}>
       <Button className={classes.title}>
-        <img src={require("../../assets/img/logo.png")} height="60" alt="Logo" />&nbsp;<big><strong style={{color: "#29b6f6"}}>{brand}</strong></big>
+        <img src={require("../../assets/img/BezopLogo.svg")} height="60" alt="Logo" />&nbsp;<big><strong style={{color: "#29b6f6"}}>{brand}</strong></big>
       </Button>
       </Link>
     );
@@ -95,10 +95,10 @@ class Header extends React.Component {
               brandComponent
             )}
           </div>
-          <Hidden mdDown implementation="css">
+          <Hidden smDown implementation="css">
             {leftLinks}
           </Hidden>
-          <Hidden lgUp>
+          <Hidden mdUp>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -108,7 +108,7 @@ class Header extends React.Component {
             </IconButton>
           </Hidden>
         </Toolbar>
-        <Hidden lgUp implementation="css">
+        <Hidden mdUp implementation="css">
           <Drawer
             variant="temporary"
             anchor={"right"}
@@ -116,6 +116,7 @@ class Header extends React.Component {
             classes={{
               paper: classes.drawerPaper
             }}
+            style={{overflowY: "scroll"}}
             onClose={this.handleDrawerToggle}
           >
             <div className={classes.appResponsive}>
@@ -153,7 +154,7 @@ Header.propTypes = {
   absolute: PropTypes.bool,
   // this will cause the sidebar to change the color from
   // this.props.color (see above) to changeColorOnScroll.color
-  // when the window.pageYOffset is heigher or equal to
+  // when the window.pageYOffset is higher or equal to
   // changeColorOnScroll.height and then when it is smaller than
   // changeColorOnScroll.height change it back to
   // this.props.color (see above)

@@ -1,20 +1,26 @@
+/**
+ * @description The ProductView component which is the parent component for products.
+ * @author Mohammed Odunayo
+ * @class ProductView
+ * @name ProductView
+ */
+
 import React from "react";
+import {Link} from "react-router-dom";
+
 import withStyles from "@material-ui/core/styles/withStyles";
-// nodejs library to set properties for components
+import More from "@material-ui/icons/ViewList";
+import { Hidden } from "@material-ui/core";
 
 import Button from '../../components/CustomButtons/Button.jsx';
-import More from "@material-ui/icons/ViewList"
-import { Hidden } from "@material-ui/core";
 import basicsStyle from "../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
-
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-
 import ProductBox from "./ProductBox.jsx";
 
 class ProductView extends React.Component {
     render() {
-        const { params } = this.props;
+        const { products, heading, moreLink, range, data, filters } = this.props;
 
         const styles = {
             cols:{
@@ -39,41 +45,57 @@ class ProductView extends React.Component {
             }
         }
 
+        let boxProducts = [];
+        if (products.length > 0 && data.vendors.length > 0 && data.brands.length > 0) {
+            boxProducts = products.filter(product => (product.discountPrice >= range[0] && product.discountPrice <= range[1]));
+            if(filters.categories.length > 0){
+                boxProducts = boxProducts.filter(product => (product.categoryId === filters.categories[filters.categories.indexOf(product.categoryId)]));
+            }
+            if(filters.vendors.length > 0){
+                boxProducts = boxProducts.filter(product => (product.vendorId === filters.vendors[filters.vendors.indexOf(product.vendorId)]));
+            }
+            if(filters.brands.length > 0){
+                boxProducts = boxProducts.filter(product => (product.brandId === filters.brands[filters.brands.indexOf(product.brandId)]));
+            }
+            boxProducts = boxProducts.slice(0, ((this.props.all)? undefined : 6));
+            boxProducts.sort((a,b) => 0.5 - Math.random());
+        }
+
         return (
             <div>
                 <Hidden smDown>
-                    <h2 style={styles.header}>{params.name}
-                    <Button color="primary" size="sm" round style={styles.bigMore}><More />
-                        { (params.moreText) ? params.moreText : "More..." }
-                    </Button>
+                    <h2 style={styles.header}>{heading}
+                    {(moreLink) ? 
+                        <Link to={moreLink}> 
+                            <Button color="primary" size="sm" round style={styles.bigMore}><More />
+                                More...
+                            </Button>
+                        </Link>
+                    :
+                        null
+                    }
                     </h2>
                 </Hidden>
                 <Hidden mdUp>
-                    <h3 style={styles.header}>{params.name + " "}
-                    <Button color="primary" size="sm" round style={styles.smallMore}><More />
-                        { (params.moreText) ? params.moreText : "More..." }
-                    </Button>
+                    <h3 style={styles.header}>{heading + " "}
+                    {(moreLink) ? 
+                        <Link to={moreLink}>
+                            <Button color="primary" size="sm" round style={styles.smallMore}><More />
+                                More...
+                            </Button>
+                        </Link>
+                    :
+                        null
+                    }
                     </h3>
                 </Hidden>
                 <GridContainer style={styles.productArea}>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
+                    {boxProducts.map((product, index) => {
+                        return(<GridItem xs={12} sm={12} md={6} lg={4} key={index}>
+                            <ProductBox product={product} data={data}/>
+                        </GridItem>);
+                        }
+                    )}
                 </GridContainer>
             </div>
         );

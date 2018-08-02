@@ -1,4 +1,4 @@
-const modalStyle = {
+const modalStyle = theme => ({
   modal: {
     borderRadius: "6px",
     maxWidth: "1000px"
@@ -50,7 +50,12 @@ const modalStyle = {
   modalFooterCenter: {
     marginLeft: "auto",
     marginRight: "auto"
+  },
+  fluidButton: {
+    ...theme.button,
+    width: "100%",
+    fontSize: "18px"
   }
-};
+});
 
 export default modalStyle;

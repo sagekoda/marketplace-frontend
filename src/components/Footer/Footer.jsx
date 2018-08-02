@@ -1,85 +1,93 @@
-/*eslint-disable*/
+/**
+ * @description This is the parent footer component that render the megaFooter and the bottomFooter.
+ * @author Mohammed Odunayo
+ * @class Footer
+ * @name Footer
+ */
+
 import React from "react";
-// nodejs library to set properties for components
 import PropTypes from "prop-types";
-// nodejs library that concatenates classes
 import classNames from "classnames";
+import {Link} from "react-router-dom";
 
 import { List, ListItem, withStyles, Button } from "@material-ui/core";
 
 import footerStyle from "../../assets/jss/material-kit-react/components/footerStyle.jsx";
 import MegaFooter from "./MegaFooter.jsx";
 
-function Footer({ ...props }) {
-  const { classes, whiteFont, topFooter } = props;
+class Footer extends React.Component {
 
-  const footerClasses = classNames({
-    [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
-  });
-  const aClasses = classNames({
-    [classes.a]: true,
-    [classes.footerWhiteFont]: whiteFont
-  });
+  render() {
+    const { classes, whiteFont, topFooter } = this.props;
 
-  const megaFooter = (topFooter) ? <MegaFooter /> : "" ;
-  return (
-    <div>
-    {megaFooter}
-    <footer className={footerClasses}>
-      <div className={classes.container}>
-        <div className={classes.left}>
-          <List className={classes.list}>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/"
-              >
-                <Button simple="true">Home</Button>
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/about"
-              >
-                <Button simple="true">About us</Button>
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/contact"
-              >
-                <Button simple="true">Contact Us</Button>
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/policy"
-              >
-                <Button simple="true">Privacy Policy</Button>
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/terms"
-              >
-                <Button simple="true">Terms & Conditions</Button>
-              </a>
-            </ListItem>
-          </List>
+    const footerClasses = classNames({
+      [classes.footer]: true,
+      [classes.footerWhiteFont]: whiteFont
+    });
+    const aClasses = classNames({
+      [classes.a]: true,
+      [classes.footerWhiteFont]: whiteFont
+    });
+
+    const megaFooter = (topFooter) ? <MegaFooter /> : "" ;
+    return (
+      <div>
+      {megaFooter}
+      <footer className={footerClasses}>
+        <div className={classes.container}>
+          <div className={classes.left}>
+            <List className={classes.list}>
+              <ListItem className={classes.inlineBlock}>
+                <Link
+                  to="/"
+                >
+                  <Button simple="true">Home</Button>
+                </Link>
+              </ListItem>
+              <ListItem className={classes.inlineBlock}>
+                <Link
+                  to="/about"
+                >
+                  <Button simple="true">About us</Button>
+                </Link>
+              </ListItem>
+              <ListItem className={classes.inlineBlock}>
+                <Link
+                  to="/contact"
+                >
+                  <Button simple="true">Contact Us</Button>
+                </Link>
+              </ListItem>
+              <ListItem className={classes.inlineBlock}>
+                <Link
+                  to="/policy"
+                >
+                  <Button simple="true">Privacy Policy</Button>
+                </Link>
+              </ListItem>
+              <ListItem className={classes.inlineBlock}>
+                <Link
+                  to="/terms"
+                >
+                  <Button simple="true">Terms & Conditions</Button>
+                </Link>
+              </ListItem>
+            </List>
+          </div>
+          <div className={classes.right}>
+            &copy; {1900 + new Date().getYear()}
+            <Link
+              to="/"
+              className={aClasses}
+            >
+              <Button simple="true">Bezop Store</Button>
+            </Link>
+          </div>
         </div>
-        <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()}
-          <a
-            href="/"
-            className={aClasses}
-          >
-            <Button simple="true">Bezop Store</Button>
-          </a>
-        </div>
+      </footer>
       </div>
-    </footer>
-    </div>
-  );
+    );
+  }
 }
 
 Footer.propTypes = {

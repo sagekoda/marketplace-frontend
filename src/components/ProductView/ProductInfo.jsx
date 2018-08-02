@@ -1,3 +1,10 @@
+/**
+ * @description The Product Info component which render a product detail information.
+ * @author Mohammed Odunayo
+ * @class ProductInfo
+ * @name ProductInfo
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,7 +32,7 @@ const styles = theme => ({
   },
 });
 
-class ControlledExpansionPanels extends React.Component {
+class ProductInfo extends React.Component {
   state = {
     expanded: null,
   };
@@ -37,46 +44,46 @@ class ControlledExpansionPanels extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, product, data } = this.props;
     const { expanded } = this.state;
 
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}><Desc/> Description</Typography>
+            <Typography className={classes.heading}><Desc/>&nbsp;Description</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography>
-                Eres' daring 'Grigri Fortune' swimsuit has the fit and coverage of a bikini in a one-piece silhouette.
-                This fuchsia style is crafted from the label's sculpting peau douce fabric and has flattering cutouts through the torso and back.
-                Wear yours with mirrored sunglasses on vacation.
+                {product.description}
             </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}><Info/> Vendor Information</Typography>
+            <Typography className={classes.heading}><Info/>&nbsp;Vendor Information</Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-                An infusion of West Coast cool and New York attitude, Rebecca Minkoff is synonymous with It girl style.
-                Minkoff burst on the fashion scene with her best-selling 'Morning After Bag' and later expanded her offering with the Rebecca Minkoff Collection.
-                A range of luxe city staples with a "downtown romantic" theme.
-            </Typography>
+          <ExpansionPanelDetails style={{display: "block"}}>
+            <h3>{data.vendors[product.vendorId].name}</h3>
+            <p>
+                Email Address: {data.vendors[product.vendorId].email}
+            </p>
+            <p>
+                Address: {data.vendors[product.vendorId].address}
+            </p>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}><Detail/> Product Details</Typography>
+            <Typography className={classes.heading}><Detail/>&nbsp;Product Details</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <ul>
-                <li>Storm and midnight-blue stretch cotton-blend</li>
-                <li>Notch lapels, functioning buttoned cuffs, two front flap pockets, single vent, internal pocket</li>
-                <li>Two button fastening</li>
-                <li>84% cotton, 14% nylon, 2% elastane</li>
-                <li>Dry clean</li>
+                <li><strong>Brand:</strong> {data.brands[product.brandId].name}</li>
+                <li><strong>Length:</strong> {product.length}</li>
+                <li><strong>Width:</strong> {product.width}</li>
+                <li><strong>Height:</strong> {product.height}</li>
+                <li><strong>Color:</strong> {product.color}</li>
             </ul>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -85,8 +92,8 @@ class ControlledExpansionPanels extends React.Component {
   }
 }
 
-ControlledExpansionPanels.propTypes = {
+ProductInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ControlledExpansionPanels);
+export default withStyles(styles)(ProductInfo);

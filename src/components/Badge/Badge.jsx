@@ -9,8 +9,9 @@ import badgeStyle from "../../assets/jss/material-kit-react/components/badgeStyl
 
 function Badge({ ...props }) {
   const { classes, color, children } = props;
+  const style = (props.style)? props.style : {};
   return (
-    <span className={classes.badge + " " + classes[color]}>{children}</span>
+    <span className={classes.badge + " " + classes[color]} style={style} >{children}</span>
   );
 }
 

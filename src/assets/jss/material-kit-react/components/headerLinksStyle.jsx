@@ -112,6 +112,10 @@ const headerLinksStyle = theme => ({
   ...tooltip,
   marginRight5: {
     marginRight: "5px"
+  },
+  bigAvatar: {
+    width: "80px",
+    height: "80px",
   }
 });
 

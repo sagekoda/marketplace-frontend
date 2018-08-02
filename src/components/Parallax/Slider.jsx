@@ -1,10 +1,16 @@
+/**
+ * @description The slider component.
+ * @author Mohammed Odunayo
+ * @class Slider
+ * @name Slider
+ */
+
 import React from "react";
-// material-ui components
+import Carousel from "react-slick";
+
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-
 import Parallax from "../../components/Parallax/Parallax.jsx";
-import Carousel from "react-slick";
 
 class Slider extends React.Component {
 

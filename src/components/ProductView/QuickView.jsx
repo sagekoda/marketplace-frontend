@@ -1,45 +1,53 @@
+/**
+ * @description The QuickView component which render a product brief details.
+ * @author Mohammed Odunayo
+ * @class QuickView
+ * @name QuickView
+ */
+
 import React from 'react';
+import Carousel from "react-slick";
+import {Link} from "react-router-dom";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Slide from "@material-ui/core/Slide";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import IconButton from "@material-ui/core/IconButton";
-import {ShoppingCart,Pageview, CompareArrows, FavoriteBorder} from "@material-ui/icons";
-import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
+import {Select, IconButton, FormControl, MenuItem, InputLabel, Chip, DialogActions, DialogContent, DialogTitle, Slide, Dialog} from "@material-ui/core";
 // @material-ui/icons
-import Close from "@material-ui/icons/Close";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "../../components/CustomButtons/Button.jsx";
+import {Close, ShoppingCart, Pageview, Compare, FavoriteBorder, Favorite, ShoppingBasket} from "@material-ui/icons";
 
+import Button from "../../components/CustomButtons/Button.jsx";
+import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-import Carousel from "react-slick";
 import ProductInfo from "./ProductInfo.jsx";
-import Chip from '@material-ui/core/Chip';
-
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import Badge from '../../components/Badge/Badge.jsx';
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
 
 class QuickView extends React.Component{
-    state = {
-        quantity: 1
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            quantity: 1
+        };
+
+        this.quantityChange = this.quantityChange.bind(this);
+    }
 
     quantityChange = event => {
+        this.props.cart.setQuantity(event.target.value);
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    componentDidMount (){
+        this.setState(...this.state, {quantity: this.props.cart.getQuantity()});
+    }
+
   render(){
-    const { classes, param, event } = this.props;
+    const { classes, param, event, favToggle, product, data, cart, compare, compToggle } = this.props;
     const settings = {
         dots: true,
         infinite: true,
@@ -61,6 +69,12 @@ class QuickView extends React.Component{
             minWidth: "130px"
         }
     };
+
+    let quantity = [];
+    for(var q = 1; q <= product.unit; q++) {
+        quantity.push(<MenuItem value={q} key={q}>{q}</MenuItem>);
+    }
+
     return (
       <div>
         <Dialog classes={{
@@ -80,25 +94,46 @@ class QuickView extends React.Component{
             <GridContainer justify="center">
               <GridItem xs={12} sm={5}>
                 <Carousel {...settings}>
-                    <img className="slick-image" src={require("../../assets/img/phone1.jpg")} alt="img" />
-                    <img className="slick-image" src={require("../../assets/img/phone2.jpg")} alt="img" />
-                    <img className="slick-image" src={require("../../assets/img/img3.jpg")} alt="img" />
-                    <img className="slick-image" src={require("../../assets/img/img4.jpg")} alt="img" />
-                    <img className="slick-image" src={require("../../assets/img/img5.jpg")} alt="img" />
+                    {product.images.map((image, index) => {
+                        return(<img className="slick-image" src={image} alt={product.name} key={index} />);
+                    })}
                 </Carousel>
-                <Button onClick={event} color="primary" round><CompareArrows/> Compare</Button>
-                <Button onClick={event} color="primary" round><FavoriteBorder/> Add To Wishlist</Button>
+                <Button
+                    onClick={compToggle}
+                    color="primary"
+                    round
+                >
+                    {(compare.checkCompare())?
+                        <span><Compare /> Remove From Compare List</span>
+                        :
+                        <span><span className={"fas fa-exchange-alt"}></span> Add To Compare List</span>
+                    }
+                </Button>
+                <Button
+                    onClick={favToggle}
+                    color="primary"
+                    round
+                >
+                    {(product.favorite)? <span><Favorite/> Remove From Wishlist</span> : <span><FavoriteBorder/> Add To Wishlist</span>}
+                </Button>
               </GridItem>
               <GridItem xs={12} sm={7}>
-                <h2 style={style.productTitle}>Android Smart Phone</h2>
+                <h2 style={style.productTitle}>{product.name}&nbsp;
+                    <sup>
+                        {(product.featured)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">Featured</Badge> : null}
+                        {(product.discount > 0)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">{product.discount}% OFF</Badge> : null}
+                        {(product.latest)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="primary">Latest</Badge> : null}
+                        {(product.unit === 0)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">Out of Stock</Badge> : null}
+                    </sup>
+                </h2>
                 <h3 className={classes.productPrice}>
                     <del style={Typo.mutedText}>
                         <small>
-                            <strong>$70,000,000</strong>
+                            <strong>{product.costPrice}</strong>
                         </small>
                     </del>
                     {" "}
-                    <span style={Typo.primaryText}><strong>$50,000,000</strong></span>
+                    <span style={Typo.primaryText}><strong>{product.sellingPrice}</strong></span>
                 </h3>
                 <form className={classes.root} autoComplete="off">
                     <FormControl style={style.formControl}>
@@ -110,50 +145,40 @@ class QuickView extends React.Component{
                                 name: "quantity",
                                 id: "product-quantity"
                             }}>
-                            <MenuItem value={1}>1</MenuItem>
-                            <MenuItem value={2}>2</MenuItem>
-                            <MenuItem value={3}>3</MenuItem>
-                            <MenuItem value={4}>4</MenuItem>
+                            {quantity}
                         </Select>
                     </FormControl>
                 </form>
-                <Button onClick={event} color="primary" round><ShoppingCart/> Add To Cart</Button>
+                {(cart.checkProduct()) ?
+                    <Link to="/cart">
+                        <Button onClick={event} color="primary" round><ShoppingBasket/> Checkout</Button>
+                    </Link>
+                    :
+                    (product.unit !== 0) ?
+                        <Button color="primary" onClick={cart.addProduct} round><ShoppingCart/> Add To Cart</Button>
+                        :
+                        <Button color="primary" disabled={true} round><ShoppingCart/> Out of Stock</Button>
+                }
                 <br/><br/>
-                <ProductInfo />
-                <h3>Related Tags</h3>
-                <Chip
-                    label="Related Tags"
-                    style={style.chip}
-                    component="a"
-                    href="#"
-                    clickable
-                />
-                <Chip
-                    label="Related Tags"
-                    style={style.chip}
-                    component="a"
-                    href="#"
-                    clickable
-                />
-                <Chip
-                    label="Related Tags"
-                    style={style.chip}
-                    component="a"
-                    href="#"
-                    clickable
-                />
-                <Chip
-                    label="Related Tags"
-                    style={style.chip}
-                    component="a"
-                    href="#"
-                    clickable
-                />
+                <ProductInfo data={data} product={product} />
+                <h3>Product Tags</h3>
+                {product.tags.map((tag, index) => {
+                    return(<Chip
+                        label={tag}
+                        style={style.chip}
+                        component="a"
+                        href="#"
+                        clickable
+                        key={index}
+                    />);
+                })}
               </GridItem>
             </GridContainer>
           </DialogContent>
           <DialogActions className={classes.modalFooter}>
-            <Button onClick={event} round><Pageview/> View Details</Button>
+            <Link to={"/product/"+product.id}>
+                <Button onClick={event} round><Pageview/> View Details</Button>
+            </Link>
           </DialogActions>
         </Dialog>
       </div>
