@@ -1,16 +1,17 @@
 /**
- * @description The profile blog.
+ * @description The user blog.
  * @author Mohammed Odunayo
- * @class Blogs
- * @name Blogs
+ * @class Profile
+ * @name Profile
  */
 
 import React from "react";
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
-import ProfileDetailTable from "./ProfileDetailTable";
+import ProfileTab from "./ProfileTab";
+import UserCard from "./UserCard";
 
-class Blogs extends React.Component {
+class Profile extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -19,16 +20,19 @@ class Blogs extends React.Component {
     }
 
     render(){
+        const {classes} = this.props;
+
         return(
             <GridContainer justify="center" spacing={40}>
-                <GridItem xs={12}>
-                    <ProfileDetailTable
-                        title={"My Blog Posts"}
-                    />
+                <GridItem lg={8}>
+                    <ProfileTab />
+                </GridItem>
+                <GridItem lg={4}>
+                    <UserCard classes={classes} />
                 </GridItem>
             </GridContainer>
         );
     }
 }
 
-export default Blogs;
+export default Profile;

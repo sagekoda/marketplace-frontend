@@ -49,8 +49,8 @@ class SingleBlog extends React.Component {
         <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
-          rightLinks={<HeaderLinks />}
-          leftLinks={<LeftLink />}
+          rightLinks={<HeaderLinks user={"customer"} />}
+          leftLinks={<LeftLink user={"customer"} />}
           fixed
           color="transparent"
           changeColorOnScroll={{
