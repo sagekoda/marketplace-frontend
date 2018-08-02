@@ -12,15 +12,14 @@ import Footer from "../../components/Footer/Footer.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
-import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
+import LandingPageMobile from "../../components/Header/LandingPageMobile.jsx";
 import Parallax from "../../components/Parallax/Parallax.jsx";
 
 // Sections for this page
 import ProductSection from "./Sections/ProductSection.jsx";
 import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
-
-const dashboardRoutes = [];
+import LandingPageLinks from "../../components/Header/LandingPageLinks";
 
 class LandingPage extends React.Component {
   render() {
@@ -29,12 +28,12 @@ class LandingPage extends React.Component {
       <div>
         <Header
           color="transparent"
-          routes={dashboardRoutes}
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
+          brand="Bezop Store"
+          leftLinks={<LandingPageLinks user={"customer"} />}
+          rightLinks={<LandingPageMobile user={"customer"} />}
           fixed
           changeColorOnScroll={{
-            height: 400,
+            height: 200,
             color: "white"
           }}
           {...rest}

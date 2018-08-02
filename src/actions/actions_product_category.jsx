@@ -13,7 +13,7 @@ export function loadProductCategories(result){
 }
 
 export function fetchProductCategories(){
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/categories`,
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/categories`,
  { 
    method: 'GET',
    headers : {

@@ -8,7 +8,7 @@
 import React from "react";
 import GridContainer from "../../../components/Grid/GridContainer";
 import GridItem from "../../../components/Grid/GridItem";
-import { Subject, Comment, Favorite, ShoppingBasket, Receipt } from "@material-ui/icons";
+import { Notifications, Comment, Favorite, ShoppingBasket, Receipt } from "@material-ui/icons";
 import { primaryColor, successColor, dangerColor, warningColor } from "../../../assets/jss/material-kit-react";
 import AnalyticCard from "./AnalyticCard";
 import ProfileTable from "./ProfileTable";
@@ -29,7 +29,7 @@ class Overview extends React.Component {
                 <GridItem lg={3} sm={6} xs={6} >
                     <AnalyticCard
                         classes={classes}
-                        Icon={<Subject style={{color: primaryColor, fontSize: "1.5em"}} />}
+                        Icon={<Notifications style={{color: primaryColor, fontSize: "1.5em"}} />}
                         value={20}
                         color={primaryColor}
                         title={"Blog Post"}
@@ -66,7 +66,7 @@ class Overview extends React.Component {
                     <ProfileTable
                         title={"Recent Blog Posts"}
                         classes={classes}
-                        Icon={<Subject />}
+                        Icon={<Notifications />}
                         color={primaryColor}
                     />
                 </GridItem>

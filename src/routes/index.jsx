@@ -8,57 +8,59 @@
 
 import React from "react";
 import { Redirect } from 'react-router'
-import { userIs } from "../components/Auth/AccessControl.jsx";
+import { userIs, isVerified } from "../components/Auth/AccessControl";
 
 //Vendor Containers
-import Dashboard from "../layouts/Dashboard/Dashboard.jsx";
-import Messages from "../layouts/Dashboard/Dashboard.jsx";
-import Products from "../layouts/Dashboard/Dashboard.jsx";
-import Orders from "../layouts/Dashboard/Dashboard.jsx";
-import Coupons from "../layouts/Dashboard/Dashboard.jsx";
-import Banner from "../layouts/Dashboard/Dashboard.jsx";
-import Shop from "../layouts/Dashboard/Dashboard.jsx";
-import Support from "../layouts/Dashboard/Dashboard.jsx";
-import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
+import Dashboard from "../layouts/Dashboard/Dashboard";
+import Messages from "../layouts/Dashboard/Dashboard";
+import Products from "../layouts/Dashboard/Dashboard";
+import Orders from "../layouts/Dashboard/Dashboard";
+import Coupons from "../layouts/Dashboard/Dashboard";
+import Banner from "../layouts/Dashboard/Dashboard";
+import Shop from "../layouts/Dashboard/Dashboard";
+import Support from "../layouts/Dashboard/Dashboard";
+import UserProfile from "../layouts/Dashboard/Dashboard";
+import AccountSetup from "../containers/AccountSetup"
 // import Blog from "../layouts/Dashboard/Dashboard.jsx";
 
 //Admin Containers
-import Admin from "../Admin/LandingPage/layout.jsx";
-import AdminProductCategory from "../Admin/LandingPage/layout.jsx";
-import DiscountCoupon from "../Admin/LandingPage/layout.jsx";
-import AdminCustomers from "../Admin/LandingPage/layout.jsx";
-import AdminMessages from "../Admin/LandingPage/layout.jsx";
-import EmailTemplate from "../Admin/LandingPage/layout.jsx";
-import AdminProduct from "../Admin/LandingPage/layout.jsx";
-import AdminVendors from "../Admin/LandingPage/layout.jsx";
-import AdminProfile from "../Admin/LandingPage/layout.jsx";
-import AdminBrands from "../Admin/LandingPage/layout.jsx";
-import AdminOrder from "../Admin/LandingPage/layout.jsx";
-import AdminStore from "../Admin/LandingPage/layout.jsx";
-import AdminBlog from "../Admin/LandingPage/layout.jsx";
-import Currency from "../Admin/LandingPage/layout.jsx";
-import Language from "../Admin/LandingPage/layout.jsx";
-import AdminSeo from "../Admin/LandingPage/layout.jsx";
+import Admin from "../Admin/LandingPage/layout";
+import AdminProductCategory from "../Admin/LandingPage/layout";
+import DiscountCoupon from "../Admin/LandingPage/layout";
+import AdminCustomers from "../Admin/LandingPage/layout";
+import AdminMessages from "../Admin/LandingPage/layout";
+import EmailTemplate from "../Admin/LandingPage/layout";
+import AdminProduct from "../Admin/LandingPage/layout";
+import AdminVendors from "../Admin/LandingPage/layout";
+import AdminProfile from "../Admin/LandingPage/layout";
+import AdminBrands from "../Admin/LandingPage/layout";
+import AdminOrder from "../Admin/LandingPage/layout";
+import AdminStore from "../Admin/LandingPage/layout";
+import AdminBlog from "../Admin/LandingPage/layout";
+import Currency from "../Admin/LandingPage/layout";
+import Language from "../Admin/LandingPage/layout";
+import AdminSeo from "../Admin/LandingPage/layout";
 
 //Customer Containers
-import Home from "../containers/Home.jsx";
-import Cart from "../containers/Cart.jsx";
-import Compare from "../containers/Compare.jsx";
-import Login from "../containers/Login.jsx";
-import Page404 from "../containers/Page404.jsx";
-import Category from "../containers/Category.jsx";
-import CategoryProductList from "../containers/CategoryProductList.jsx";
-import Brand from "../containers/Brand.jsx";
-import Vendor from "../containers/Vendor.jsx";
-import VendorProductList from "../containers/VendorProductList.jsx";
-import About from "../containers/AboutPage.jsx";
-import Blogs from "../containers/BlogPage.jsx";
-import BrandProductList from "../containers/BrandProductList.jsx";
-import SingleBlog from "../containers/SingleBlogPage.jsx";
-import Contact from "../containers/ContactPage.jsx";
-import SingleProduct from "../containers/SingleProduct.jsx";
-import ProductList from "../containers/ProductList.jsx";
-import Profile from "../containers/ProfilePage.jsx";
+import Home from "../containers/Home";
+import Cart from "../containers/Cart";
+import Compare from "../containers/Compare";
+import Login from "../containers/Login";
+import Page404 from "../containers/Page404";
+import Category from "../containers/Category";
+import CategoryProductList from "../containers/CategoryProductList";
+import Brand from "../containers/Brand";
+import Vendor from "../containers/Vendor";
+import VendorProductList from "../containers/VendorProductList";
+import About from "../containers/AboutPage";
+import Blogs from "../containers/BlogPage";
+import BrandProductList from "../containers/BrandProductList";
+import SingleBlog from "../containers/SingleBlogPage";
+import Contact from "../containers/ContactPage";
+import SingleProduct from "../containers/SingleProduct";
+import ProductList from "../containers/ProductList";
+import Profile from "../containers/ProfilePage";
+import LandingPage from "../containers/LandingPage";
 
 var indexRoutes = [
   /**
@@ -192,14 +194,19 @@ var indexRoutes = [
       :
       <Redirect to={{ pathname: "/login/admin", state: { from: props.location } }} />
   },
+
   /**
    * @description Vendor Route Directories
    */
+
   { 
     path: "/dashboard/messages",
     name: "Messages",
     Component: (props) => userIs(["vendor"])?
-      <Messages {...props} />
+      (isVerified("vendor"))?
+        <Messages {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -207,7 +214,10 @@ var indexRoutes = [
     path: "/dashboard/products/category",
     name: "Product Category",
     Component: (props) => userIs(["vendor"])?
-      <Products {...props} />
+      (isVerified("vendor"))?
+        <Products {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -215,7 +225,10 @@ var indexRoutes = [
     path: "/dashboard/products/brand",
     name: "Product Brand",
     Component: (props) => userIs(["vendor"])?
-      <Products {...props} />
+      (isVerified("vendor"))?
+        <Products {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -223,7 +236,10 @@ var indexRoutes = [
     path: "/dashboard/products",
     name: "Products",
     Component: (props) => userIs(["vendor"])?
-      <Products {...props} />
+      (isVerified("vendor"))?
+        <Products {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -231,7 +247,10 @@ var indexRoutes = [
     path: "/dashboard/settings",
     name: "Settings",
     Component: (props) => userIs(["vendor"])?
-      <Shop {...props} />
+      (isVerified("vendor"))?
+        <Shop {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -239,7 +258,10 @@ var indexRoutes = [
     path: "/dashboard/coupons",
     name: "Coupons",
     Component: (props) => userIs(["vendor"])?
-      <Coupons {...props} />
+      (isVerified("vendor"))?
+        <Coupons {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -247,7 +269,10 @@ var indexRoutes = [
     path: "/dashboard/support",
     name: "Support",
     Component: (props) => userIs(["vendor"])?
-      <Support {...props} />
+      (isVerified("vendor"))?
+        <Support {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -255,7 +280,10 @@ var indexRoutes = [
     path: "/dashboard/banner",
     name: "banners",
     Component: (props) => userIs(["vendor"])?
-      <Banner {...props} />
+      (isVerified("vendor"))?
+        <Banner {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -263,7 +291,10 @@ var indexRoutes = [
     path: "/dashboard/orders",
     name: "Orders",
     Component: (props) => userIs(["vendor"])?
-      <Orders {...props} />
+      (isVerified("vendor"))?
+        <Orders {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -271,7 +302,10 @@ var indexRoutes = [
     path: "/dashboard/user",
     name: "Users",
     Component: (props) => userIs(["vendor"])?
-      <UserProfile {...props} />
+      (isVerified("vendor"))?
+        <UserProfile {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
@@ -279,13 +313,26 @@ var indexRoutes = [
     path: "/dashboard",
     name:"Dashboard",
     Component: (props) => userIs(["vendor"])?
-      <Dashboard {...props} />
+      (isVerified("vendor"))?
+        <Dashboard {...props} />
+        :
+        <Redirect to={{ pathname: "/account-setup", state: { from: props.location } }} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
+  { 
+    path: "/account-setup",
+    name:"AccountSetup",
+    Component: (props) => userIs(["vendor"])?
+      <AccountSetup {...props} />
+      :
+      <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+
   /**
    * @description Customers Route Directories.
    */
+
   { 
     path: "/categories",
     name: "Categories",
@@ -388,10 +435,16 @@ var indexRoutes = [
     Component: (props) => <About {...props} />
   },
   { 
+    path: "/:vendor",
+    exact: true,
+    name: "FrontStore",
+    Component: (props) => <Home {...props} />
+  },
+  { 
     path: "/",
     exact: true,
-    name: "Home",
-    Component: (props) => <Home {...props} />
+    name: "Landing Page",
+    Component: (props) => <LandingPage {...props} />
   },
   { 
     path: "*",

@@ -54,8 +54,8 @@ class Home extends React.Component {
         <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
-          rightLinks={<HeaderLinks events={this.events} />}
-          leftLinks={<LeftLinks events={this.events} />}
+          rightLinks={<HeaderLinks events={this.events} user={"customer"} />}
+          leftLinks={<LeftLinks events={this.events} user={"customer"} />}
           fixed
           color="transparent"
           changeColorOnScroll={{

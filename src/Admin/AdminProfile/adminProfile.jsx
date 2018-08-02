@@ -47,7 +47,7 @@ class AdminProfile extends React.Component {
       countrySelect: "react-select-label-hidden",
       adminID: "5b50cac169bc14dcf81d401f",
       company: "BEZOP DEMO STORE",
-      avatar: `${process.env.REACT_APP_API_URL}/assets/img/faces/marc.jpg`,
+      avatar: `${process.env.REACT_APP_DEV_API_URL}/assets/img/faces/marc.jpg`,
       snackBarMessageSuccess: "",
       snackBarOpenSuccess: false,
     }

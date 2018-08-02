@@ -33,7 +33,7 @@ export function loadUserUpdate(result){
 }
 
 export function fetchUserProfile(vendorID){
-    return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/vendors/${vendorID}`, {
+    return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/vendors/${vendorID}`, {
         method: 'GET',
         headers: {
             "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`

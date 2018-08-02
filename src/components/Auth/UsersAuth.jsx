@@ -15,9 +15,14 @@ import Button from "../CustomButtons/Button.jsx";
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 import BezopLogo from "../../assets/img/BezopLogo.svg";
 import MetaMaskLogo from "../../assets/img/metamask.png";
+import { getIdFromToken, setUsersAccount, unsetUsersAccount } from "./AccessControl.jsx";
 
 export const LS_KEY = "bezop-login:";
-const API_URL = process.env.REACT_APP_PROD_API_URL;
+const API_URL = (process.env.NODE_ENV === "development")?
+    process.env.REACT_APP_DEV_API_URL
+    :
+    process.env.REACT_APP_PROD_API_URL;
+
 const NO_METAMASK = "NO_METAMASK";
 const NOT_SIGNED_UP = "NOT_SIGNED_UP";
 const INACTIVE_METAMASK = "INACTIVE_METAMASK";
@@ -383,7 +388,7 @@ class UsersAuth extends React.Component {
                 }
             });
         }
-    }
+    };
 
     usersLogin = user => {
         const authType = "login";
@@ -446,7 +451,7 @@ class UsersAuth extends React.Component {
                 }
             });
         }
-    }
+    };
 
     handleErrors = err => {
         switch(err.type){
@@ -492,7 +497,7 @@ class UsersAuth extends React.Component {
               throw new Error(`Authentication Failed: ${(responseJSON.message)?responseJSON.message : responseJSON.error.message}`);
             }
         });
-    }
+    };
 
     userSignMessage = ({ data, user }) => {
         const { publicAddress, nonce, authType } = data;
@@ -508,16 +513,20 @@ class UsersAuth extends React.Component {
                 }
             )}
         );
-    }
+    };
 
     userLogIn = ({ data, user }) => {
-        localStorage.setItem(LS_KEY+user, JSON.stringify(data));
-        this.setState({ auth: {[user]: data} });
-        this.completed(user, `You're now logged in.`);
+        const accessToken = data.accessToken;
+        const id = getIdFromToken(accessToken);
+        const profile = setUsersAccount({user, id, accessToken})
+        .then( () => {
+            this.setState({ auth: {[user]: profile} });
+            this.completed(user, `You're now logged in.`);
+        });
     };
 
     userLogOut = user => {
-        localStorage.removeItem(LS_KEY+user);
+        unsetUsersAccount(user);
         this.setState({ auth: {[user]: undefined} });
         window.location.assign("/");
     };
@@ -579,7 +588,7 @@ class UsersAuth extends React.Component {
         </div>;
 
         return(
-            <div>
+            <span>
                 <Dialog
                 classes={{
                     root: classes.center,
@@ -618,7 +627,7 @@ class UsersAuth extends React.Component {
                     }
                 </DialogActions>
                 </Dialog>
-            </div>
+            </span>
         );
     }
 }

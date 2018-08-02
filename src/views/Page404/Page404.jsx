@@ -21,6 +21,9 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import image from "../../assets/img/404.png";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
+import LandingPageMobile from "../../components/Header/LandingPageMobile.jsx";
+import LandingPageLinks from "../../components/Header/LandingPageLinks";
+import Header from "../../components/Header/Header.jsx";
 
 class Page404 extends React.Component {
   constructor(props) {
@@ -48,6 +51,17 @@ class Page404 extends React.Component {
     document.title = "Page Not Found 404 @ Bezop Store || Worlds First Decentralized Store";
     return (
       <div>
+        <Header
+          color="transparent"
+          brand="Bezop Store"
+          leftLinks={<LandingPageLinks user={"customer"} />}
+          rightLinks={<LandingPageMobile user={"customer"} />}
+          fixed
+          changeColorOnScroll={{
+            height: 200,
+            color: "white"
+          }}
+        />
         <PageLoader display={this.state.loader} />
         <div
           style={{

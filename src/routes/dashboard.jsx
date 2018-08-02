@@ -9,7 +9,6 @@ import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import Loyalty from "@material-ui/icons/Loyalty";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
 import Email from "@material-ui/icons/Email"
 import Language from "@material-ui/icons/Language"
 
@@ -23,7 +22,6 @@ import ProductBrand from "../containers/Product/Brand.jsx";
 import Coupons from "../containers/Coupons.jsx"
 import Shop from "../containers/Shops.jsx"
 import Support from "../containers/Supports.jsx"
-import UpgradeToPro from "../containers/UpgradeToPro.jsx";
 import Banners from "../containers/Banners.jsx";
 import Messages from "../containers/Messages.jsx";
 import Blog from "../containers/Blog/blog"
@@ -143,13 +141,6 @@ export const dashboardRoutes = [
     navbarName: "Profile",
     icon: Person,
     component: UserProfile
-  },
-  {
-    path: "/dashboard/upgrade-to-pro",
-    sidebarName: "View Homepage",
-    navbarName: "View Homepage",
-    icon: Unarchive,
-    component: UpgradeToPro
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];

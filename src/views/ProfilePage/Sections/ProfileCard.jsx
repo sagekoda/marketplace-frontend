@@ -19,7 +19,7 @@ import {
  } from "@material-ui/core";
 
 import { 
-  Subject,
+  Notifications,
   Comment,
   Favorite,
   Dashboard,
@@ -81,9 +81,9 @@ class ProfileCard extends React.Component {
                         style={(this.state.blogs)? {borderLeft: "4px solid #29b6f6", backgroundColor: "#ceeefd"} : null}
                     >
                         <ListItemIcon>
-                            <Subject style={(this.state.blogs)? {color: "#29b6f6"} : null} />
+                            <Notifications style={(this.state.notifications)? {color: "#29b6f6"} : null} />
                         </ListItemIcon>
-                        <ListItemText primary="Blogs" />
+                        <ListItemText primary="Notifications" />
                     </ListItem>
                     <ListItem
                         onClick={() => this.props.goto("orders")}
@@ -116,32 +116,28 @@ class ProfileCard extends React.Component {
                         <ListItemText primary="Ticket" />
                     </ListItem>
                 </List>
-                <BottomNavigation value={""} showLabels style={{overflowX: "scroll", margin: "0px -5%"}} >
+                <BottomNavigation value={""} showLabels style={{overflowX: "scroll", margin: "0px 0%", cursor: "pointer"}} >
                     <BottomNavigationAction
                     icon={<span>
-                        <Subject />
-                        <span style={{float: "right", fontSize: "1.3em", marginLeft: "5px"}}>20</span>
+                        <Notifications />
                         </span>}
                     style={{borderTop: "4px solid "+primaryColor, color: primaryColor}}
                     />
                     <BottomNavigationAction
                     icon={<span>
                         <Comment />
-                        <span style={{float: "right", fontSize: "1.3em", marginLeft: "5px"}}>100</span>
                         </span>}
                     style={{borderTop: "4px solid "+successColor, color: successColor}}
                     />
                     <BottomNavigationAction
                     icon={<span>
                         <Favorite />
-                        <span style={{float: "right", fontSize: "1.3em", marginLeft: "5px"}}>50</span>
                         </span>}
                     style={{borderTop: "4px solid "+dangerColor, color: dangerColor}}
                     />
                     <BottomNavigationAction
                     icon={<span>
                         <Receipt />
-                        <span style={{float: "right", fontSize: "1.3em", marginLeft: "5px"}}>70</span>
                         </span>}
                     style={{borderTop: "4px solid "+warningColor, color: warningColor}}
                     />

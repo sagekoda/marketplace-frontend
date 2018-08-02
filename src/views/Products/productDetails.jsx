@@ -8,7 +8,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select2, {Creatable} from "react-select";
 import { withStyles } from '@material-ui/core/styles';
-import _ from "lodash";
 
 import 'react-select/dist/react-select.css';
 import GridItem from "../../components/Grid/GridItem.jsx";

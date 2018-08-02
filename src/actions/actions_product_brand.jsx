@@ -13,7 +13,7 @@ export function loadProductBrands(result){
 }
 
 export function fetchProductBrands(){
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/brands`,
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/brands`,
  { 
    method: 'GET',
    headers:{

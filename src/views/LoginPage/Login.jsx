@@ -11,6 +11,9 @@ import Footer from "../../components/Footer/Footer.jsx";
 import image from "../../assets/img/img3.jpg";
 import Events from "events";
 import UsersAuth from "../../components/Auth/UsersAuth";
+import LandingPageMobile from "../../components/Header/LandingPageMobile.jsx";
+import LandingPageLinks from "../../components/Header/LandingPageLinks";
+import Header from "../../components/Header/Header.jsx";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -30,6 +33,17 @@ class LoginPage extends React.Component {
     document.title = this.user + " Login @ Bezop Store || Worlds First Decentralized Store";
     return (
       <div>
+        <Header
+          color="transparent"
+          brand="Bezop Store"
+          leftLinks={<LandingPageLinks user={"customer"} />}
+          rightLinks={<LandingPageMobile user={"customer"} />}
+          fixed
+          changeColorOnScroll={{
+            height: 200,
+            color: "white"
+          }}
+        />
         <div
           style={{
             width: "100%",
@@ -42,6 +56,7 @@ class LoginPage extends React.Component {
         >
           <UsersAuth events={this.events} />
           <div style={{position: "fixed", bottom: "1%", zIndex: "10000", width: "100%"}}>
+
           <Footer whiteFont />
           </div>
         </div>

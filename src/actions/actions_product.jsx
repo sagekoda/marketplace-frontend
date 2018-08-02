@@ -12,7 +12,7 @@ export function loadProducts(result){
 }
 
 export function fetchProducts(){
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products`,
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products`,
  {
     method: 'GET',
     headers: {
@@ -38,7 +38,7 @@ export function loadProductDetail(results) {
 
 export function postProductDetails(productDetails) {
   console.log(productDetails);
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products`, {
+  return dispatch => fetch(`${process.env.REACT_APP_DEV_API_URL}/api/v1/products`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

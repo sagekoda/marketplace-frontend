@@ -9,14 +9,15 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import {List, ListItem, Tooltip, Avatar} from "@material-ui/core";
-import {ShoppingCart, Compare, AccountCircle, PowerSettingsNew} from '@material-ui/icons';
+import {List, ListItem, Tooltip} from "@material-ui/core";
+import {ShoppingCart, Compare} from '@material-ui/icons';
 
 import CustomDropdown from "../../components/CustomDropdown/CustomDropdown.jsx";
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 import Badge from '../../components/Badge/Badge.jsx';
+import TopMenuAuthLinks from './TopMenuAuthLinks.jsx';
+import TopMenuUserAvatar from "./TopMenuUserAvatar.jsx";
 import UsersAuth from "../Auth/UsersAuth.jsx";
-import {userIs} from "../Auth/AccessControl.jsx";
 import Events from "events";
 
 class LeftLinks extends React.Component {
@@ -27,12 +28,12 @@ class LeftLinks extends React.Component {
       Compare: (localStorage.compare)? JSON.parse(localStorage.compare).length : 0
     };
 
+    this.events = new Events();
+
     if(this.props.events){
       this.props.events.on('add-to-cart', this.updateCart.bind(this));
       this.props.events.on('add-to-compare', this.updateCompare.bind(this));
     }
-
-    this.events = new Events();
   }
 
   updateCart() {
@@ -46,11 +47,7 @@ class LeftLinks extends React.Component {
   }
   
   render() {
-    const { classes } = this.props;
-
-    if(this.props.timer) {
-      setInterval(this.getQuantity, 3000);
-    }
+    const { classes, user } = this.props;
 
     return (
       <div>
@@ -91,64 +88,9 @@ class LeftLinks extends React.Component {
                 Blogs
               </NavLink>
             </ListItem>
-            {(!userIs(["customer"]))?
-              <span>
-                <ListItem className={classes.listItem}>
-                  <CustomDropdown buttonText="Login" dropdownHeader="Login as"
-                    buttonProps={{
-                      className: classes.navLink,
-                      color: "transparent"
-                    }}
-                    dropdownList={[
-                      <a
-                        onClick={() => {
-                          this.events.emit("usersLogin", "Customer");
-                        }}
-                        className={classes.dropdownLink}
-                      >
-                        Customer Login
-                      </a>,
-                      <a
-                        onClick={() => {
-                          this.events.emit("usersLogin", "Vendor");
-                        }}
-                        className={classes.dropdownLink}
-                      >
-                        Vendor Login
-                      </a>,
-                    ]}
-                  />
-                </ListItem>
-                <ListItem className={classes.listItem}>
-                  <CustomDropdown buttonText="Sign Up" dropdownHeader="Sign Up as"
-                    buttonProps={{
-                      className: classes.navLink,
-                      color: "transparent"
-                    }}
-                    dropdownList={[
-                      <a
-                        onClick={() => {
-                          this.events.emit("usersSignUp", "Customer");
-                        }}
-                        className={classes.dropdownLink}
-                      >
-                        Customer Sign Up
-                      </a>,
-                      <a
-                        onClick={() => {
-                          this.events.emit("usersSignUp", "Vendor");
-                        }}
-                        className={classes.dropdownLink}
-                      >
-                        Vendor Sign Up
-                      </a>,
-                    ]}
-                  />
-                </ListItem>
-              </span>
-            :
-              null
-            }
+
+            <TopMenuAuthLinks events={this.events} users={user} />
+
             <ListItem className={classes.listItem}>
             {(this.state.Compare > 1)?
               <Tooltip title="Compare Products" placement="bottom" classes={{ tooltip: classes.tooltip }}>
@@ -163,11 +105,15 @@ class LeftLinks extends React.Component {
               :
               <Tooltip title="Needed 2 Product to Compare" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <span className={classes.navLink} color="transparent">
-                  <Compare /><Badge color="primary" className={classes.navLink}>
+                  <Compare />
+                  {(this.state.Compare > 0)? <Badge color="primary" className={classes.navLink}>
                     <big style={{fontSize: "1.3em"}}>
                       {this.state.Compare}
                     </big>
                   </Badge>
+                  :
+                  null
+                  }
                 </span>
               </Tooltip>
             }
@@ -188,49 +134,13 @@ class LeftLinks extends React.Component {
               <Tooltip title="Empty Shopping Cart" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <span className={classes.navLink} color="transparent">
                   <ShoppingCart />
-                  <Badge color="primary" className={classes.navLink}>
-                    <big style={{fontSize: "1.3em"}}>
-                      {this.state.Cart}
-                    </big>
-                  </Badge>
                 </span>
               </Tooltip>
               }
             </ListItem>
-            {(userIs(["customer"]))?
-              <ListItem className={classes.listItem}>
-                <Tooltip title="My Account" placement="right" classes={{ tooltip: classes.tooltip }}>
-                  <span color="transparent" style={{padding: "0px"}}>
-                    <CustomDropdown
-                      buttonText={
-                        <Avatar alt="User Avatar" src={require('../../assets/img/faces/marc.jpg')} />
-                      }
-                      buttonProps={{
-                        className: classes.navLink,
-                        style: {padding: "7px 12px"},
-                        color: "transparent",
-                      }}
-                      dropdownList={[
-                        <NavLink
-                          to="/profile"
-                          className={classes.dropdownLink}
-                        >
-                          <AccountCircle style={{marginBottom: "-8px"}} /> My Profile
-                        </NavLink>,
-                        <a
-                          onClick={() => this.events.emit("usersLogOut", "customer")}
-                          className={classes.dropdownLink}
-                        >
-                          <PowerSettingsNew style={{marginBottom: "-8px"}} /> Logout
-                        </a>,
-                      ]}
-                    />
-                  </span>
-                </Tooltip>
-              </ListItem>
-              :
-              null
-            }
+
+            <TopMenuUserAvatar events={this.events} users={user} />
+
           </List>
       </div>
     );

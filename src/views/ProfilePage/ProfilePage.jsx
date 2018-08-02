@@ -16,7 +16,8 @@ import GridItem from "../../components/Grid/GridItem";
 import ProfileCard from "./Sections/ProfileCard.jsx";
 import SubscribeCard from "./Sections/SubscribeCard.jsx";
 import Overview from "./Sections/Overview";
-import Blogs from "./Sections/Blogs";
+import Profile from "./Sections/Profile";
+import Notifications from "./Sections/Notifications";
 import Orders from "./Sections/Orders";
 import Wishlist from "./Sections/Wishlist";
 import Tickets from "./Sections/Tickets";
@@ -28,7 +29,7 @@ class ProfilePage extends React.Component {
     this.state = {
       overview: true,
       profile: false,
-      blogs: false,
+      notifications: false,
       orders: false,
       wishlist: false,
       ticket: false,
@@ -49,7 +50,7 @@ class ProfilePage extends React.Component {
     let nav = {
       overview: false,
       profile: false,
-      blogs: false,
+      notifications: false,
       orders: false,
       wishlist: false,
       ticket: false,
@@ -66,8 +67,8 @@ class ProfilePage extends React.Component {
         <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
-          rightLinks={<HeaderLinks />}
-          leftLinks={<LeftLinks />}
+          rightLinks={<HeaderLinks user={"customer"} />}
+          leftLinks={<LeftLinks user={"customer"} />}
           color="white"
           changeColorOnScroll={{
             height: 200,
@@ -91,7 +92,8 @@ class ProfilePage extends React.Component {
                 </GridItem>
                 <GridItem lg={9} md={8} xs={12}>
                   {(this.state.overview)? <Overview classes={classes} /> : null}
-                  {(this.state.blogs)? <Blogs classes={classes} /> : null}
+                  {(this.state.profile)? <Profile classes={classes} /> : null}
+                  {(this.state.notifications)? <Notifications classes={classes} /> : null}
                   {(this.state.orders)? <Orders classes={classes} /> : null}
                   {(this.state.wishlist)? <Wishlist classes={classes} /> : null}
                   {(this.state.ticket)? <Tickets classes={classes} /> : null}
